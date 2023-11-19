@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdRegionalData", "BdRegionalData.csproj", "{1B4E2958-A9BF-42F0-ABFA-D4A9A5FE5DCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdGeographicalData", "BdGeographicalData.csproj", "{1B4E2958-A9BF-42F0-ABFA-D4A9A5FE5DCB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
