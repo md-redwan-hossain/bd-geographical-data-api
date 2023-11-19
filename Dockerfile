@@ -11,9 +11,11 @@ RUN dotnet restore "BdGeographicalData.csproj"
 RUN dotnet build "BdGeographicalData.csproj" -c Release -o /app/build
 
 FROM build AS publish
+COPY ./app.db .
 RUN dotnet publish "BdGeographicalData.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
+COPY ./app.db .
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "BdGeographicalData.dll"]
