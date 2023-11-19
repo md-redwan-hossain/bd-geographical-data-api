@@ -14,10 +14,9 @@ public class BdGeographicalDataDbContext : DbContext
     public BdGeographicalDataDbContext(DbContextOptions<BdGeographicalDataDbContext> options) : base(options)
     {
     }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
         modelBuilder.ApplyConfiguration(new DivisionConfig());
         modelBuilder.ApplyConfiguration(new DistrictConfig());
         modelBuilder.ApplyConfiguration(new SubDistrictConfig());
