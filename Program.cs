@@ -11,15 +11,18 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-if (Helper.GetDbConnectionString(builder) is null)
-    builder.Configuration.AddJsonFile("secrets.json", optional: false, reloadOnChange: true);
 
 var envVars = new EnvVariable()
 {
-    DatabaseUrl = Helper.GetDbConnectionString(builder),
+    DatabaseUrl = builder.Configuration.GetConnectionString("DATABASE_URL"),
+    UseSecretsJson = builder.Configuration.GetValue<bool>("USE_SECRETS_JSON")
 };
 
 new EnvVariableValidator().ValidateAndThrow(envVars);
+
+if (envVars.UseSecretsJson)
+    builder.Configuration.AddJsonFile("secrets.json", optional: false, reloadOnChange: true);
+
 
 builder.Services.AddDbContext<BdGeographicalDataDbContext>(options =>
     options.UseSqlite(envVars.DatabaseUrl));

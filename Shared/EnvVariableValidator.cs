@@ -11,5 +11,10 @@ public class EnvVariableValidator : AbstractValidator<EnvVariable>
         RuleFor(envVariable => envVariable.DatabaseUrl)
             .NotNull()
             .NotEmpty();
+        
+        RuleFor(envVariable => envVariable.UseSecretsJson)
+            .NotNull()
+            .NotEmpty();
+        
     }
 }

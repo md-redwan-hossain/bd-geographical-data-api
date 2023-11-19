@@ -41,4 +41,5 @@ dotnet restore
 
 ## Environment variable
 
-- You can create `secrets.json` in the parent directory (where `Program.cs` is located) and add any valid json value there. `Program.cs` is already configured to read from `secrets.json`
+- To store sensitive data in environment variable fashion, you can create `secrets.json` in the parent directory (where `Program.cs` is located) and add any valid json value there. 
+- To load data from `secrets.json`, set `"USE_SECRETS_JSON"` to `true` in `appsettings.json`
