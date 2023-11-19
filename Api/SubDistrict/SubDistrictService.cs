@@ -42,15 +42,15 @@ public class SubDistrictService : ISubDistrictService
             .Include(x => x.District)
             .ThenInclude(x => x.Division);
 
-        if (sortOrder == ApiResponseSortOrder.Desc)
-            data = data.OrderByDescending(x => x.EnglishName);
-        else if(sortOrder == ApiResponseSortOrder.Asc)
-            data = data.OrderBy(x => x.EnglishName);
-
         data = data
             .Skip((page - 1) * (limit))
             .Take(limit);
-        
+
+        if (sortOrder == ApiResponseSortOrder.Desc)
+            data = data.OrderByDescending(x => x.EnglishName);
+        else if (sortOrder == ApiResponseSortOrder.Asc)
+            data = data.OrderBy(x => x.EnglishName);
+
         return await data.ToListAsync();
     }
 }
