@@ -19,33 +19,43 @@ public class DivisionController : ControllerBase
 
 
     [HttpGet("{division_id:int}")]
-    public async Task<IActionResult> GetById([BindRequired] [FromRoute(Name = "division_id")] int id)
+    public async Task<IActionResult> GetById(
+        [BindRequired] [FromRoute(Name = "division_id")]
+        int id,
+        [FromQuery(Name = "add_districts")] bool addDistricts = false,
+        [FromQuery(Name = "add_sub_districts")]
+        bool addSubDistricts = false
+    )
     {
         if (!ModelState.IsValid)
             return BadRequest();
 
-        var result = await _divisionService.FindOneById(id);
+        var result = await _divisionService.FindOneById(id, addDistricts, addSubDistricts);
 
         if (result is null)
             return NotFound("division not found");
 
-        return Ok(result.ToDto(true, true));
+        return Ok(result.ToDto(addDistricts, addSubDistricts));
     }
 
     [HttpGet("{division_name}")]
     public async Task<IActionResult> GetByEnglishName(
         [BindRequired] [FromRoute(Name = "division_name")]
-        string divisionName)
+        string divisionName,
+        [FromQuery(Name = "add_districts")] bool addDistricts = false,
+        [FromQuery(Name = "add_sub_districts")]
+        bool addSubDistricts = false
+    )
     {
         if (!ModelState.IsValid)
             return BadRequest();
 
-        var result = await _divisionService.FindOneByEnglishName(divisionName);
+        var result = await _divisionService.FindOneByEnglishName(divisionName, addDistricts, addSubDistricts);
 
         if (result is null)
             return NotFound("division not found");
 
-        return Ok(result.ToDto(true, true));
+        return Ok(result.ToDto(addDistricts, addSubDistricts));
     }
 
 
@@ -53,9 +63,13 @@ public class DivisionController : ControllerBase
     public async Task<IActionResult> GetAll(
         ApiResponseSortOrder sortOrder,
         [FromQuery(Name = "page")] ushort page = 1,
-        [FromQuery(Name = "limit")] ushort limit = 1)
+        [FromQuery(Name = "limit")] ushort limit = 1,
+        [FromQuery(Name = "add_districts")] bool addDistricts = false,
+        [FromQuery(Name = "add_sub_districts")]
+        bool addSubDistricts = false
+    )
     {
-        var result = await _divisionService.FindAll(page, limit, sortOrder);
-        return Ok(result.Select(x => x.ToDto(true, true)));
+        var result = await _divisionService.FindAll(page, limit, sortOrder, addDistricts, addSubDistricts);
+        return Ok(result.Select(x => x.ToDto(addDistricts, addSubDistricts)));
     }
 }

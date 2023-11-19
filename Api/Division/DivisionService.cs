@@ -5,39 +5,34 @@ namespace BdGeographicalData.Api.Division;
 
 public class DivisionService : IDivisionService
 {
-    private readonly BdGeographicalDataDbContext _dbContext;
+    private readonly DbSet<Entity.Division> _dbSet;
 
     public DivisionService(BdGeographicalDataDbContext dbContext) =>
-        _dbContext = dbContext;
+        _dbSet = dbContext.Set<Entity.Division>();
 
-
-    public async Task<Entity.Division?> FindOneById(int id)
+    public async Task<Entity.Division?> FindOneById(int id, bool addDistricts, bool addSubDistricts)
     {
-        return await _dbContext.Divisions
-            .Where(elem => elem.Id == id)
-            .Include(x => x.Districts)
-            .ThenInclude(x => x.SubDistricts)
-            .FirstOrDefaultAsync();
+        var data = _dbSet.AsQueryable();
+        data = data.Where(x => x.Id == id);
+        data = IncludeRelationalData(data, addDistricts, addSubDistricts);
+        return await data.FirstOrDefaultAsync();
     }
 
-    public async Task<Entity.Division?> FindOneByEnglishName(string divisionName)
+    public async Task<Entity.Division?> FindOneByEnglishName(string divisionName, bool addDistricts,
+        bool addSubDistricts)
     {
-        return await _dbContext.Divisions
-            .Where(elem =>
-                elem.EnglishName == divisionName)
-            .Include(x => x.Districts)
-            .ThenInclude(x => x.SubDistricts)
-            .FirstOrDefaultAsync();
+        var data = _dbSet.AsQueryable();
+        data = data.Where(x => x.EnglishName == divisionName);
+        data = IncludeRelationalData(data, addDistricts, addSubDistricts);
+        return await data.FirstOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<Entity.Division>> FindAll(ushort page, ushort limit, ApiResponseSortOrder sortOrder)
+    public async Task<IEnumerable<Entity.Division>> FindAll(
+        ushort page, ushort limit, ApiResponseSortOrder sortOrder,
+        bool addDistricts, bool addSubDistricts)
     {
-        var dbSet = _dbContext.Set<Entity.Division>();
-        var data = dbSet.AsQueryable();
-
-        data = data
-            .Include(x => x.Districts)
-            .ThenInclude(x => x.SubDistricts);
+        var data = _dbSet.AsQueryable();
+        data = IncludeRelationalData(data, addDistricts, addSubDistricts);
 
         data = data
             .Skip((page - 1) * (limit))
@@ -49,5 +44,20 @@ public class DivisionService : IDivisionService
             data = data.OrderBy(x => x.EnglishName);
 
         return await data.ToListAsync();
+    }
+
+
+    private IQueryable<Entity.Division> IncludeRelationalData(
+        IQueryable<Entity.Division> data, bool addDistricts, bool addSubDistricts)
+    {
+        if (addDistricts && addSubDistricts)
+            data = data
+                .Include(x => x.Districts)
+                .ThenInclude(x => x.SubDistricts);
+
+        else if (addDistricts && !addSubDistricts)
+            data = data.Include(x => x.Districts);
+
+        return data;
     }
 }

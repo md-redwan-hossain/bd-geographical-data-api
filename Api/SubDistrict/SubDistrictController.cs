@@ -18,17 +18,22 @@ public class SubDistrictController : ControllerBase
 
 
     [HttpGet("{sub_district_id:int}")]
-    public async Task<IActionResult> GetById([BindRequired] [FromRoute(Name = "sub_district_id")] int id)
+    public async Task<IActionResult> GetById(
+        [BindRequired] [FromRoute(Name = "sub_district_id")]
+        int id,
+        [FromQuery(Name = "add_division")] bool addDivision = false,
+        [FromQuery(Name = "add_district")] bool addDistrict = false
+    )
     {
         if (!ModelState.IsValid)
             return BadRequest();
 
-        var result = await _subDistrictService.FindOneById(id);
+        var result = await _subDistrictService.FindOneById(id, addDistrict, addDivision);
 
         if (result is null)
             return NotFound("division not found");
 
-        return Ok(result.ToDto(true, true));
+        return Ok(result.ToDto(addDistrict, addDivision));
     }
 
     [HttpGet("{sub_district_name}")]
@@ -38,17 +43,21 @@ public class SubDistrictController : ControllerBase
         [BindRequired] [FromQuery(Name = "district_name")]
         string districtName,
         [BindRequired] [FromQuery(Name = "division_name")]
-        string divisionName)
+        string divisionName,
+        [FromQuery(Name = "add_division")] bool addDivision = false,
+        [FromQuery(Name = "add_district")] bool addDistrict = false
+    )
     {
         if (!ModelState.IsValid)
             return BadRequest();
 
-        var result = await _subDistrictService.FindOneByEnglishName(subDistrictName, districtName, divisionName);
+        var result = await _subDistrictService.FindOneByEnglishName
+            (subDistrictName, districtName, divisionName, addDistrict, addDivision);
 
         if (result is null)
             return NotFound("sub district not found");
 
-        return Ok(result.ToDto(true, true));
+        return Ok(result.ToDto(addDistrict, addDivision));
     }
 
 
@@ -56,9 +65,12 @@ public class SubDistrictController : ControllerBase
     public async Task<IActionResult> GetAll(
         ApiResponseSortOrder sortOrder,
         [FromQuery(Name = "page")] ushort page = 1,
-        [FromQuery(Name = "limit")] ushort limit = 1)
+        [FromQuery(Name = "limit")] ushort limit = 1,
+        [FromQuery(Name = "add_division")] bool addDivision = false,
+        [FromQuery(Name = "add_district")] bool addDistrict = false
+    )
     {
-        var result = await _subDistrictService.FindAll(page, limit, sortOrder);
+        var result = await _subDistrictService.FindAll(page, limit, sortOrder, addDistrict, addDivision);
         return Ok(result.Select(x => x.ToDto(true, true)));
     }
 }

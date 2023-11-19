@@ -4,9 +4,11 @@ namespace BdGeographicalData.Api.SubDistrict;
 
 public interface ISubDistrictService
 {
-    Task<Entity.SubDistrict?> FindOneById(int id);
+    Task<Entity.SubDistrict?> FindOneById(int id, bool addDistrict, bool addDivision);
 
-    Task<Entity.SubDistrict?> FindOneByEnglishName(string subDistrictName, string districtName, string divisionName);
+    Task<Entity.SubDistrict?> FindOneByEnglishName(string subDistrictName, string districtName, string divisionName,
+        bool addDistrict, bool addDivision);
 
-    Task<IEnumerable<Entity.SubDistrict>> FindAll(ushort page,ushort limit, ApiResponseSortOrder sortOrder);
+    Task<IEnumerable<Entity.SubDistrict>> FindAll(ushort page, ushort limit, ApiResponseSortOrder sortOrder,
+        bool addDistrict, bool addDivision);
 }
