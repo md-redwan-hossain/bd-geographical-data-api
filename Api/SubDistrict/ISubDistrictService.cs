@@ -1,6 +1,6 @@
-using BdRegionalData.Shared;
+using BdGeographicalData.Shared;
 
-namespace BdRegionalData.Api.SubDistrict;
+namespace BdGeographicalData.Api.SubDistrict;
 
 public interface ISubDistrictService
 {

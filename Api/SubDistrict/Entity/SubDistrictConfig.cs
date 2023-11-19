@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BdRegionalData.Api.SubDistrict.Entity;
+namespace BdGeographicalData.Api.SubDistrict.Entity;
 
 public class SubDistrictConfig : IEntityTypeConfiguration<SubDistrict>
 {

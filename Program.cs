@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
-using BdRegionalData.Api.SubDistrict;
-using BdRegionalData.Shared;
+using BdGeographicalData.Api.SubDistrict;
+using BdGeographicalData.Shared;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -19,7 +19,7 @@ var envVars = new EnvVariable()
 
 new EnvVariableValidator().ValidateAndThrow(envVars);
 
-builder.Services.AddDbContext<BdRegionalDataDbContext>(options =>
+builder.Services.AddDbContext<BdGeographicalDataDbContext>(options =>
     options.UseSqlite(envVars.DatabaseUrl));
 
 builder.Services.AddScoped<ISubDistrictService, SubDistrictService>();

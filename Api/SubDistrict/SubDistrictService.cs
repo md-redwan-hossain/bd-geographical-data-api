@@ -1,13 +1,13 @@
-using BdRegionalData.Shared;
+using BdGeographicalData.Shared;
 using Microsoft.EntityFrameworkCore;
 
-namespace BdRegionalData.Api.SubDistrict;
+namespace BdGeographicalData.Api.SubDistrict;
 
 public class SubDistrictService : ISubDistrictService
 {
-    private readonly BdRegionalDataDbContext _dbContext;
+    private readonly BdGeographicalDataDbContext _dbContext;
 
-    public SubDistrictService(BdRegionalDataDbContext dbContext) =>
+    public SubDistrictService(BdGeographicalDataDbContext dbContext) =>
         _dbContext = dbContext;
 
     public async Task<Entity.SubDistrict?> FindOneById(int id)

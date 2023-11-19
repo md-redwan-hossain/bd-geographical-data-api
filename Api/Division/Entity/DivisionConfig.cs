@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BdRegionalData.Api.Division.Entity;
+namespace BdGeographicalData.Api.Division.Entity;
 
 public class DivisionConfig : IEntityTypeConfiguration<Division>
 {

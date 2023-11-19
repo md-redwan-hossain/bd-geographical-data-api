@@ -1,6 +1,6 @@
-using BdRegionalData.Api.District.Dto;
+using BdGeographicalData.Api.District.Dto;
 
-namespace BdRegionalData.Api.Division.Dto;
+namespace BdGeographicalData.Api.Division.Dto;
 
 public class DivisionResponseDto
 {

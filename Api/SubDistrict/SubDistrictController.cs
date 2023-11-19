@@ -1,9 +1,9 @@
-using BdRegionalData.Api.SubDistrict.Entity;
-using BdRegionalData.Shared;
+using BdGeographicalData.Shared;
+using BdGeographicalData.Api.SubDistrict.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace BdRegionalData.Api.SubDistrict;
+namespace BdGeographicalData.Api.SubDistrict;
 
 [ApiController]
 [Route("api/[controller]")]

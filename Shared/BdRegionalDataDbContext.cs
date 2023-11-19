@@ -1,17 +1,17 @@
-using BdRegionalData.Api.District.Entity;
-using BdRegionalData.Api.Division.Entity;
-using BdRegionalData.Api.SubDistrict.Entity;
+using BdGeographicalData.Api.District.Entity;
+using BdGeographicalData.Api.Division.Entity;
+using BdGeographicalData.Api.SubDistrict.Entity;
 using Microsoft.EntityFrameworkCore;
 
-namespace BdRegionalData.Shared;
+namespace BdGeographicalData.Shared;
 
-public class BdRegionalDataDbContext : DbContext
+public class BdGeographicalDataDbContext : DbContext
 {
     public DbSet<Division> Divisions { get; set; } = null!;
     public DbSet<District> Districts { get; set; } = null!;
     public DbSet<SubDistrict> SubDistricts { get; set; } = null!;
 
-    public BdRegionalDataDbContext(DbContextOptions<BdRegionalDataDbContext> options) : base(options)
+    public BdGeographicalDataDbContext(DbContextOptions<BdGeographicalDataDbContext> options) : base(options)
     {
     }
     

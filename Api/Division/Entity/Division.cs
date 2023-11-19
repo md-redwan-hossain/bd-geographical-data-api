@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace BdRegionalData.Api.Division.Entity;
+namespace BdGeographicalData.Api.Division.Entity;
 
 public class Division 
 {

@@ -1,4 +1,4 @@
-namespace BdRegionalData.Shared;
+namespace BdGeographicalData.Shared;
 
 public static class Helper
 {

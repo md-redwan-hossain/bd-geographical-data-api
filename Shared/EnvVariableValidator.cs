@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace BdRegionalData.Shared;
+namespace BdGeographicalData.Shared;
 
 public class EnvVariableValidator : AbstractValidator<EnvVariable>
 {

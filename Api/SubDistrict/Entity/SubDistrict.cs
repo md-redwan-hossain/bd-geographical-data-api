@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace BdRegionalData.Api.SubDistrict.Entity;
+namespace BdGeographicalData.Api.SubDistrict.Entity;
 
 public class SubDistrict
 {

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using BdRegionalData.Api.District.Dto;
-using BdRegionalData.Api.Division.Dto;
+using BdGeographicalData.Api.District.Dto;
+using BdGeographicalData.Api.Division.Dto;
 
-namespace BdRegionalData.Api.SubDistrict.Dto;
+namespace BdGeographicalData.Api.SubDistrict.Dto;
 
 public class SubDistrictResponseDto
 {

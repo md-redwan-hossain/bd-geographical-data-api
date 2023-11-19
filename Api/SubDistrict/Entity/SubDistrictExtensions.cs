@@ -1,8 +1,8 @@
-using BdRegionalData.Api.District.Dto;
-using BdRegionalData.Api.Division.Dto;
-using BdRegionalData.Api.SubDistrict.Dto;
+using BdGeographicalData.Api.District.Dto;
+using BdGeographicalData.Api.Division.Dto;
+using BdGeographicalData.Api.SubDistrict.Dto;
 
-namespace BdRegionalData.Api.SubDistrict.Entity;
+namespace BdGeographicalData.Api.SubDistrict.Entity;
 
 public static class SubDistrictExtensions
 {
