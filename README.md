@@ -1,4 +1,4 @@
-## Why use the API
+## Rationale
 
 This API will provide Division, District, Sub-District related data of Bangladesh. For example:
 
@@ -6,12 +6,12 @@ This API will provide Division, District, Sub-District related data of Banglades
 - A Districts and its Division and Sub-Districts.
 - A Sub-District and its Division and District.
 
-## Where to use the API
+## Where to use
 
-- This types of data are frequently used in web applications where Geographical data is utilized.
+-  Data provided by this API are frequently used in web applications where Geographical data is utilized.
 
-## How to run the API
-
+## How to run
+- For API documentation, `/swagger` go to endpoint. 
 - The preferred way to use the API is docker. However, you need dotnet 7 to run the source code.
 - If any package is missing, simply run:
 
