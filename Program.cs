@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using BdGeographicalData.Api.District;
+using BdGeographicalData.Api.Division;
 using BdGeographicalData.Api.SubDistrict;
 using BdGeographicalData.Shared;
 using FluentValidation;
@@ -22,6 +24,8 @@ new EnvVariableValidator().ValidateAndThrow(envVars);
 builder.Services.AddDbContext<BdGeographicalDataDbContext>(options =>
     options.UseSqlite(envVars.DatabaseUrl));
 
+builder.Services.AddScoped<IDivisionService, DivisionService>();
+builder.Services.AddScoped<IDistrictService, DistrictService>();
 builder.Services.AddScoped<ISubDistrictService, SubDistrictService>();
 
 

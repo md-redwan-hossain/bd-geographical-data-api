@@ -25,7 +25,8 @@ public class SubDistrictController : ControllerBase
 
         var result = await _subDistrictService.FindOneById(id);
 
-        if (result is null) return NotFound("division not found");
+        if (result is null)
+            return NotFound("division not found");
 
         return Ok(result.ToDto(true, true));
     }
@@ -44,7 +45,8 @@ public class SubDistrictController : ControllerBase
 
         var result = await _subDistrictService.FindOneByEnglishName(subDistrictName, districtName, divisionName);
 
-        if (result is null) return NotFound("sub district not found");
+        if (result is null)
+            return NotFound("sub district not found");
 
         return Ok(result.ToDto(true, true));
     }

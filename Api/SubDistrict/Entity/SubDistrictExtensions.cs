@@ -6,7 +6,7 @@ namespace BdGeographicalData.Api.SubDistrict.Entity;
 
 public static class SubDistrictExtensions
 {
-    public static SubDistrictResponseDto ToDto(this Entity.SubDistrict subDistrict, bool addDistrict,
+    public static SubDistrictResponseDto ToDto(this SubDistrict subDistrict, bool addDistrict,
         bool addDivision)
     {
         return new SubDistrictResponseDto
