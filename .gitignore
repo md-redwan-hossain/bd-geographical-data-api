@@ -11,9 +11,8 @@ riderModule.iml
 **/.env
 dist
 node_modules
-
-**/app.db**
+**/app.db-shm
+**/app.db-wal
 **/secrets**.json
-
 
 
