@@ -7,6 +7,8 @@ public class DistrictConfig : IEntityTypeConfiguration<District>
 {
     public void Configure(EntityTypeBuilder<District> builder)
     {
+        builder.ToTable("Districts");
+        
         builder.HasIndex(x => new { x.EnglishName, x.DivisionId })
             .IsUnique(unique: true);
 
@@ -15,7 +17,7 @@ public class DistrictConfig : IEntityTypeConfiguration<District>
             .WithOne(x => x.District)
             .HasForeignKey(x => x.DistrictId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade)
+            .OnDelete(DeleteBehavior.Restrict)
             .HasConstraintName("FK_District_SubDistricts");
     }
 }

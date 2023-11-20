@@ -1,12 +1,12 @@
-using System.Text.Json.Serialization;
 using BdGeographicalData.Api.District;
 using BdGeographicalData.Api.Division;
 using BdGeographicalData.Api.SubDistrict;
 using BdGeographicalData.Shared;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,8 +24,8 @@ if (envVars.UseSecretsJson)
     builder.Configuration.AddJsonFile("secrets.json", optional: false, reloadOnChange: true);
 
 
-builder.Services.AddDbContext<BdGeographicalDataDbContext>(options =>
-    options.UseSqlite(envVars.DatabaseUrl));
+builder.Services.AddDbContext<BdGeographicalDataDbContext>(opts =>
+    opts.UseSqlite(envVars.DatabaseUrl));
 
 builder.Services.AddScoped<IDivisionService, DivisionService>();
 builder.Services.AddScoped<IDistrictService, DistrictService>();

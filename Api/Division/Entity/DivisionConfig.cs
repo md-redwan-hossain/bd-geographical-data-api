@@ -7,6 +7,8 @@ public class DivisionConfig : IEntityTypeConfiguration<Division>
 {
     public void Configure(EntityTypeBuilder<Division> builder)
     {
+        builder.ToTable("Divisions");
+        
         builder.HasIndex(x => x.EnglishName).IsUnique(unique: true);
         builder.HasIndex(x => x.BanglaName).IsUnique(unique: true);
 
@@ -15,7 +17,7 @@ public class DivisionConfig : IEntityTypeConfiguration<Division>
             .WithOne(x => x.Division)
             .HasForeignKey(x => x.DivisionId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade)
+            .OnDelete(DeleteBehavior.Restrict)
             .HasConstraintName("FK_Division_Districts");
     }
 }

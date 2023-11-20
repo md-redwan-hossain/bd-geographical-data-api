@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Reflection.Metadata;
 using BdGeographicalData.Api.District.Entity;
 using BdGeographicalData.Api.Division.Entity;
 using BdGeographicalData.Api.SubDistrict.Entity;
@@ -17,10 +19,7 @@ public class BdGeographicalDataDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new DivisionConfig());
-        modelBuilder.ApplyConfiguration(new DistrictConfig());
-        modelBuilder.ApplyConfiguration(new SubDistrictConfig());
-
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
     }
 }

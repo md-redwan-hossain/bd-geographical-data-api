@@ -8,12 +8,12 @@ riderModule.iml
 **/Logs/*
 **/.idea
 **/.vscode
-**/Migrations
 **/.env
 dist
 node_modules
 
-**/secrets.json
-**/.env
+**/app.db**
+**/secrets**.json
+
 
 
