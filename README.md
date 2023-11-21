@@ -8,11 +8,17 @@ This API will provide Division, District, Sub-District related data of Banglades
 
 ## Where to use
 
--  Data provided by this API are frequently used in web applications where Geographical data is utilized.
+- Data provided by this API are frequently used in web applications where Geographical data is utilized.
+
+## Why the API is read only?
+
+- To enable `POST` or `PATCH` request, authentication needs to be added which will be too much opinionated.
+- The database can be manipulated directly by SQL query or via separate API backend where proper authentication strategy is being used according to the business demand.
 
 ## How to run
-- For API documentation, `/swagger` go to endpoint. 
+
 - The preferred way to use the API is docker. However, you need dotnet 7 to run the source code.
+- For API documentation, go to `/swagger` endpoint.
 - If any package is missing, simply run:
 
 ```bash
@@ -27,7 +33,7 @@ dotnet restore
 
 ## Running from compiled binary
 
-- If you want to run from single executable self-contained binary, port conflict may occur. Simply add the following lines in `appsettings.json` to configure the port of kestrel server.
+- If you want to run from single executable self-contained binary, port conflict may occur. Simply add the following lines in the existing json object of `appsettings.json` to configure the port of kestrel server.
 
 ```json
   "Kestrel": {
@@ -41,5 +47,5 @@ dotnet restore
 
 ## Environment variable
 
-- To store sensitive data in environment variable fashion, you can create `secrets.json` in the parent directory (where `Program.cs` is located) and add any valid json value there. 
+- To store sensitive data in environment variable fashion, you can create `secrets.json` in the parent directory (where `Program.cs` is located) and add any valid json value there.
 - To load data from `secrets.json`, set `"USE_SECRETS_JSON"` to `true` in `appsettings.json`
