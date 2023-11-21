@@ -62,14 +62,15 @@ public class DivisionController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll(
         ApiResponseSortOrder sortOrder,
-        [FromQuery(Name = "page")] ushort page = 1,
-        [FromQuery(Name = "limit")] ushort limit = 1,
+        [FromQuery] ApiPagination apiPagination,
         [FromQuery(Name = "add_districts")] bool addDistricts = false,
         [FromQuery(Name = "add_sub_districts")]
         bool addSubDistricts = false
     )
     {
-        var result = await _divisionService.FindAll(page, limit, sortOrder, addDistricts, addSubDistricts);
+        var result = await _divisionService.FindAll(
+            apiPagination.Page, apiPagination.Limit, sortOrder, addDistricts, addSubDistricts);
+
         return Ok(result.Select(x => x.ToDto(addDistricts, addSubDistricts)));
     }
 }
