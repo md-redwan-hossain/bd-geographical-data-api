@@ -10,6 +10,6 @@ public interface IDistrictService
         string districtName, string divisionName, bool addDivision, bool addSubDistricts);
 
     Task<IEnumerable<Entity.District>> FindAll(
-        ushort page, ushort limit, ApiResponseSortOrder sortOrder,
+        ApiPagination apiPagination, ApiResponseSortOrder sortOrder,
         bool addDivision, bool addSubDistricts);
 }

@@ -28,15 +28,15 @@ public class DivisionService : IDivisionService
     }
 
     public async Task<IEnumerable<Entity.Division>> FindAll(
-        ushort page, ushort limit, ApiResponseSortOrder sortOrder,
+        ApiPagination apiPagination, ApiResponseSortOrder sortOrder,
         bool addDistricts, bool addSubDistricts)
     {
         var data = _dbSet.AsQueryable();
         data = IncludeRelationalData(data, addDistricts, addSubDistricts);
 
         data = data
-            .Skip((page - 1) * (limit))
-            .Take(limit);
+            .Skip((apiPagination.Page - 1) * apiPagination.Limit)
+            .Take(apiPagination.Limit);
 
         if (sortOrder == ApiResponseSortOrder.Desc)
             data = data.OrderByDescending(x => x.EnglishName);
@@ -47,7 +47,7 @@ public class DivisionService : IDivisionService
     }
 
 
-    private IQueryable<Entity.Division> IncludeRelationalData(
+    private static IQueryable<Entity.Division> IncludeRelationalData(
         IQueryable<Entity.Division> data, bool addDistricts, bool addSubDistricts)
     {
         if (addDistricts && addSubDistricts)

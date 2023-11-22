@@ -69,7 +69,7 @@ public class DivisionController : ControllerBase
     )
     {
         var result = await _divisionService.FindAll(
-            apiPagination.Page, apiPagination.Limit, sortOrder, addDistricts, addSubDistricts);
+            apiPagination, sortOrder, addDistricts, addSubDistricts);
 
         return Ok(result.Select(x => x.ToDto(addDistricts, addSubDistricts)));
     }

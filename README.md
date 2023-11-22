@@ -6,6 +6,8 @@ This API will provide Division, District, Sub-District related data of Banglades
 - A Districts and its Division and Sub-Districts.
 - A Sub-District and its Division and District.
 
+![Screenshot of swagger doc](api.png)
+
 ## Where to use
 
 - Data provided by this API are frequently used in web applications where Geographical data is utilized.

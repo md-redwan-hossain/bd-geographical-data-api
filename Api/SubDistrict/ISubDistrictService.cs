@@ -9,6 +9,6 @@ public interface ISubDistrictService
     Task<Entity.SubDistrict?> FindOneByEnglishName(string subDistrictName, string districtName, string divisionName,
         bool addDistrict, bool addDivision);
 
-    Task<IEnumerable<Entity.SubDistrict>> FindAll(ushort page, ushort limit, ApiResponseSortOrder sortOrder,
+    Task<IEnumerable<Entity.SubDistrict>> FindAll(ApiPagination apiPagination, ApiResponseSortOrder sortOrder,
         bool addDistrict, bool addDivision);
 }

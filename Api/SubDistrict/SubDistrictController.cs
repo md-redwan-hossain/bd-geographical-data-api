@@ -69,8 +69,7 @@ public class SubDistrictController : ControllerBase
         [FromQuery(Name = "add_district")] bool addDistrict = false
     )
     {
-        var result = await _subDistrictService.FindAll(
-            apiPagination.Page, apiPagination.Limit, sortOrder, addDistrict, addDivision);
+        var result = await _subDistrictService.FindAll(apiPagination, sortOrder, addDistrict, addDivision);
         return Ok(result.Select(x => x.ToDto(true, true)));
     }
 }

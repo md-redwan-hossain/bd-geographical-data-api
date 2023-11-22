@@ -31,7 +31,7 @@ public class SubDistrictService : ISubDistrictService
     }
 
     public async Task<IEnumerable<Entity.SubDistrict>> FindAll(
-        ushort page, ushort limit, ApiResponseSortOrder sortOrder, bool addDistrict, bool addDivision)
+        ApiPagination apiPagination, ApiResponseSortOrder sortOrder, bool addDistrict, bool addDivision)
     {
         var data = _dbSet.AsQueryable();
         data = IncludeRelationalData(data, addDistrict, addDivision);
@@ -41,8 +41,8 @@ public class SubDistrictService : ISubDistrictService
             .ThenInclude(x => x.Division);
 
         data = data
-            .Skip((page - 1) * (limit))
-            .Take(limit);
+            .Skip((apiPagination.Page - 1) * apiPagination.Limit)
+            .Take(apiPagination.Limit);
 
         if (sortOrder == ApiResponseSortOrder.Desc)
             data = data.OrderByDescending(x => x.EnglishName);
@@ -53,7 +53,7 @@ public class SubDistrictService : ISubDistrictService
     }
 
 
-    private IQueryable<Entity.SubDistrict> IncludeRelationalData(
+    private static IQueryable<Entity.SubDistrict> IncludeRelationalData(
         IQueryable<Entity.SubDistrict> data, bool addDistrict, bool addDivision)
     {
         if (addDistrict && addDivision)

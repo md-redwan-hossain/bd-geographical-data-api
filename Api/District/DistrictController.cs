@@ -70,7 +70,7 @@ public class DistrictController : ControllerBase
         bool addSubDistricts = false)
     {
         var result = await _districtService.FindAll(
-            apiPagination.Page, apiPagination.Limit, sortOrder, addDivision, addSubDistricts);
+            apiPagination, sortOrder, addDivision, addSubDistricts);
 
         return Ok(result.Select(x => x.ToDto(addDivision, addSubDistricts)));
     }
