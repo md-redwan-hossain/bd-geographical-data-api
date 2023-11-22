@@ -11,7 +11,6 @@ using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 var envVars = new EnvVariable()
 {
     DatabaseUrl = builder.Configuration.GetConnectionString("DATABASE_URL"),

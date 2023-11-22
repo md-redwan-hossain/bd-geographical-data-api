@@ -34,14 +34,17 @@ public class DivisionService : IDivisionService
         var data = _dbSet.AsQueryable();
         data = IncludeRelationalData(data, addDistricts, addSubDistricts);
 
-        data = data
-            .Skip((apiPagination.Page - 1) * apiPagination.Limit)
-            .Take(apiPagination.Limit);
-
         if (sortOrder == ApiResponseSortOrder.Desc)
             data = data.OrderByDescending(x => x.EnglishName);
         else if (sortOrder == ApiResponseSortOrder.Asc)
             data = data.OrderBy(x => x.EnglishName);
+        else
+            data = data.OrderBy(x => x.Id);
+
+
+        if (apiPagination.Page > 0 && apiPagination.Limit > 0)
+            data = data.Skip((apiPagination.Page - 1) * apiPagination.Limit).Take(apiPagination.Limit);
+
 
         return await data.ToListAsync();
     }
