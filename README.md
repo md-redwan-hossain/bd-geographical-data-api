@@ -20,6 +20,7 @@ This API will provide Division, District, Sub-District related data of Banglades
 ## How to run
 
 - The preferred way to use the API is docker. However, you need dotnet 7 to run the source code.
+- Precompiled binaries are also available in the release page. Just extract them and use.
 - For API documentation, go to `/swagger` endpoint. Example url: `http://localhost:5000/swagger`
 - If any package is missing, simply run:
 
