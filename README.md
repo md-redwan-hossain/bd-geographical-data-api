@@ -1,6 +1,6 @@
 ## Rationale
 
-This API will provide Division, District, Sub-District related data of Bangladesh. For example:
+This API will provide Division, District, Sub-District related data of Bangladesh. - The database is already provided as `app.db` with loaded data. Data examples:
 
 - A Division and its Districts and Sub-Districts.
 - A Districts and its Division and Sub-Districts.
@@ -51,4 +51,4 @@ dotnet restore
 ## Environment variable
 
 - To store sensitive data in environment variable fashion, you can create `secrets.json` in the parent directory (where `Program.cs` is located) and add any valid json value there.
-- To load data from `secrets.json`, set `"USE_SECRETS_JSON"` to `true` in `appsettings.json`
+- To load data from `secrets.json`, set `"USE_SECRETS_JSON"` to `1` in `appsettings.json`. `-1` will disable the loading of `secrets.json`.

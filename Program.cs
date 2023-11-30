@@ -14,12 +14,12 @@ var builder = WebApplication.CreateBuilder(args);
 var envVars = new EnvVariable()
 {
     DatabaseUrl = builder.Configuration.GetConnectionString("DATABASE_URL"),
-    UseSecretsJson = builder.Configuration.GetValue<bool>("USE_SECRETS_JSON")
+    UseSecretsJson = builder.Configuration.GetValue<int>("USE_SECRETS_JSON")
 };
 
 new EnvVariableValidator().ValidateAndThrow(envVars);
 
-if (envVars.UseSecretsJson)
+if (envVars.UseSecretsJson == 1)
     builder.Configuration.AddJsonFile("secrets.json", optional: false, reloadOnChange: true);
 
 
