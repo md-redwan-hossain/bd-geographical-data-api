@@ -10,14 +10,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 [Route("api/[controller]")]
 [Consumes("application/json")]
 [Produces("application/json")]
-public class DivisionController : ControllerBase
+public class DivisionController(IDivisionService divisionService) : ControllerBase
 {
-    private readonly IDivisionService _divisionService;
-
-    public DivisionController(IDivisionService divisionService) =>
-        _divisionService = divisionService;
-
-
     [HttpGet("{division_id:int}")]
     public async Task<IActionResult> GetById(
         [BindRequired] [FromRoute(Name = "division_id")]
@@ -30,7 +24,7 @@ public class DivisionController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
 
-        var result = await _divisionService.FindOneById(id, addDistricts, addSubDistricts);
+        var result = await divisionService.FindOneById(id, addDistricts, addSubDistricts);
 
         if (result is null)
             return NotFound("division not found");
@@ -50,7 +44,7 @@ public class DivisionController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
 
-        var result = await _divisionService.FindOneByEnglishName(divisionName, addDistricts, addSubDistricts);
+        var result = await divisionService.FindOneByEnglishName(divisionName, addDistricts, addSubDistricts);
 
         if (result is null)
             return NotFound("division not found");
@@ -68,7 +62,7 @@ public class DivisionController : ControllerBase
         bool addSubDistricts = false
     )
     {
-        var result = await _divisionService.FindAll(
+        var result = await divisionService.FindAll(
             apiPagination, sortOrder, addDistricts, addSubDistricts);
 
         return Ok(result.Select(x => x.ToDto(addDistricts, addSubDistricts)));

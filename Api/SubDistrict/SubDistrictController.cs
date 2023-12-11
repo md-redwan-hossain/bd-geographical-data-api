@@ -9,14 +9,8 @@ namespace BdGeographicalData.Api.SubDistrict;
 [Route("api/[controller]")]
 [Consumes("application/json")]
 [Produces("application/json")]
-public class SubDistrictController : ControllerBase
+public class SubDistrictController(ISubDistrictService subDistrictService) : ControllerBase
 {
-    private readonly ISubDistrictService _subDistrictService;
-
-    public SubDistrictController(ISubDistrictService subDistrictService) =>
-        _subDistrictService = subDistrictService;
-
-
     [HttpGet("{sub_district_id:int}")]
     public async Task<IActionResult> GetById(
         [BindRequired] [FromRoute(Name = "sub_district_id")]
@@ -28,7 +22,7 @@ public class SubDistrictController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
 
-        var result = await _subDistrictService.FindOneById(id, addDistrict, addDivision);
+        var result = await subDistrictService.FindOneById(id, addDistrict, addDivision);
 
         if (result is null)
             return NotFound("division not found");
@@ -51,7 +45,7 @@ public class SubDistrictController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
 
-        var result = await _subDistrictService.FindOneByEnglishName
+        var result = await subDistrictService.FindOneByEnglishName
             (subDistrictName, districtName, divisionName, addDistrict, addDivision);
 
         if (result is null)
@@ -69,7 +63,7 @@ public class SubDistrictController : ControllerBase
         [FromQuery(Name = "add_district")] bool addDistrict = false
     )
     {
-        var result = await _subDistrictService.FindAll(apiPagination, sortOrder, addDistrict, addDivision);
+        var result = await subDistrictService.FindAll(apiPagination, sortOrder, addDistrict, addDivision);
         return Ok(result.Select(x => x.ToDto(true, true)));
     }
 }

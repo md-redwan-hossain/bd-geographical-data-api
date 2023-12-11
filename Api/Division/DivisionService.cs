@@ -3,12 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BdGeographicalData.Api.Division;
 
-public class DivisionService : IDivisionService
+public class DivisionService(BdGeographicalDataDbContext dbContext) : IDivisionService
 {
-    private readonly DbSet<Entity.Division> _dbSet;
-
-    public DivisionService(BdGeographicalDataDbContext dbContext) =>
-        _dbSet = dbContext.Set<Entity.Division>();
+    private readonly DbSet<Entity.Division> _dbSet = dbContext.Set<Entity.Division>();
 
     public async Task<Entity.Division?> FindOneById(int id, bool addDistricts, bool addSubDistricts)
     {

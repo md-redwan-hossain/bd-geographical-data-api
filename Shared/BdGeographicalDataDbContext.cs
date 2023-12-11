@@ -3,12 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BdGeographicalData.Shared;
  
-public class BdGeographicalDataDbContext : DbContext
+public class BdGeographicalDataDbContext(DbContextOptions<BdGeographicalDataDbContext> options) : DbContext(options)
 {
-    public BdGeographicalDataDbContext(DbContextOptions<BdGeographicalDataDbContext> options) : base(options)
-    {
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
