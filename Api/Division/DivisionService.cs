@@ -7,21 +7,22 @@ public class DivisionService(BdGeographicalDataDbContext dbContext) : IDivisionS
 {
     private readonly DbSet<Entity.Division> _dbSet = dbContext.Set<Entity.Division>();
 
-    public async Task<Entity.Division?> FindOneById(int id, bool addDistricts, bool addSubDistricts)
+    public Task<Entity.Division?> FindOneById(int id, bool addDistricts, bool addSubDistricts)
     {
         var data = _dbSet.AsQueryable();
         data = data.Where(x => x.Id == id);
         data = IncludeRelationalData(data, addDistricts, addSubDistricts);
-        return await data.FirstOrDefaultAsync();
+        return data.FirstOrDefaultAsync();
     }
 
-    public async Task<Entity.Division?> FindOneByEnglishName(string divisionName, bool addDistricts,
+
+    public Task<Entity.Division?> FindOneByEnglishName(string divisionName, bool addDistricts,
         bool addSubDistricts)
     {
         var data = _dbSet.AsQueryable();
         data = data.Where(x => x.EnglishName == divisionName);
         data = IncludeRelationalData(data, addDistricts, addSubDistricts);
-        return await data.FirstOrDefaultAsync();
+        return data.FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<Entity.Division>> FindAll(
@@ -31,17 +32,15 @@ public class DivisionService(BdGeographicalDataDbContext dbContext) : IDivisionS
         var data = _dbSet.AsQueryable();
         data = IncludeRelationalData(data, addDistricts, addSubDistricts);
 
-        if (sortOrder == ApiResponseSortOrder.Desc)
-            data = data.OrderByDescending(x => x.EnglishName);
-        else if (sortOrder == ApiResponseSortOrder.Asc)
-            data = data.OrderBy(x => x.EnglishName);
-        else
-            data = data.OrderBy(x => x.Id);
+        data = sortOrder switch
+        {
+            ApiResponseSortOrder.Desc => data.OrderByDescending(x => x.EnglishName),
+            ApiResponseSortOrder.Asc => data.OrderBy(x => x.EnglishName),
+            _ => data.OrderBy(x => x.Id)
+        };
 
-
-        if (apiPagination.Page > 0 && apiPagination.Limit > 0)
+        if (apiPagination is { Page: > 0, Limit: > 0 })
             data = data.Skip((apiPagination.Page - 1) * apiPagination.Limit).Take(apiPagination.Limit);
-
 
         return await data.ToListAsync();
     }
@@ -50,14 +49,12 @@ public class DivisionService(BdGeographicalDataDbContext dbContext) : IDivisionS
     private static IQueryable<Entity.Division> IncludeRelationalData(
         IQueryable<Entity.Division> data, bool addDistricts, bool addSubDistricts)
     {
-        if (addDistricts && addSubDistricts)
-            data = data
-                .Include(x => x.Districts)
-                .ThenInclude(x => x.SubDistricts);
+        if (!addDistricts) return data;
 
-        else if (addDistricts && !addSubDistricts)
-            data = data.Include(x => x.Districts);
-
-        return data;
+        return addSubDistricts switch
+        {
+            true => data.Include(x => x.Districts).ThenInclude(x => x.SubDistricts),
+            false => data.Include(x => x.Districts)
+        };
     }
 }

@@ -64,6 +64,6 @@ public class SubDistrictController(ISubDistrictService subDistrictService) : Con
     )
     {
         var result = await subDistrictService.FindAll(apiPagination, sortOrder, addDistrict, addDivision);
-        return Ok(result.Select(x => x.ToDto(true, true)));
+        return Ok(result.Select(x => x.ToDto(addDistrict, addDivision)));
     }
 }

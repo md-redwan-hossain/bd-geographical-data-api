@@ -7,23 +7,22 @@ public class DistrictService(BdGeographicalDataDbContext dbContext) : IDistrictS
 {
     private readonly DbSet<Entity.District> _dbSet = dbContext.Set<Entity.District>();
 
-
-    public async Task<Entity.District?> FindOneById(int id, bool addDivision, bool addSubDistricts)
+    public Task<Entity.District?> FindOneById(int id, bool addDivision, bool addSubDistricts)
     {
         var data = _dbSet.AsQueryable();
         data = data.Where(x => x.Id == id);
         data = IncludeRelationalData(data, addDivision, addSubDistricts);
-        return await data.FirstOrDefaultAsync();
+        return data.FirstOrDefaultAsync();
     }
 
-    public async Task<Entity.District?> FindOneByEnglishName(
+    public Task<Entity.District?> FindOneByEnglishName(
         string districtName, string divisionName, bool addDivision, bool addSubDistricts)
     {
         var data = _dbSet.AsQueryable();
         data = data.Where(x =>
             x.EnglishName == districtName && x.Division.EnglishName == divisionName);
         data = IncludeRelationalData(data, addDivision, addSubDistricts);
-        return await data.FirstOrDefaultAsync();
+        return data.FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<Entity.District>> FindAll(
@@ -33,17 +32,15 @@ public class DistrictService(BdGeographicalDataDbContext dbContext) : IDistrictS
         var data = _dbSet.AsQueryable();
         data = IncludeRelationalData(data, addDivision, addSubDistricts);
 
-        if (sortOrder == ApiResponseSortOrder.Desc)
-            data = data.OrderByDescending(x => x.EnglishName);
-        else if (sortOrder == ApiResponseSortOrder.Asc)
-            data = data.OrderBy(x => x.EnglishName);
-        else
-            data = data.OrderBy(x => x.Id);
+        data = sortOrder switch
+        {
+            ApiResponseSortOrder.Desc => data.OrderByDescending(x => x.EnglishName),
+            ApiResponseSortOrder.Asc => data.OrderBy(x => x.EnglishName),
+            _ => data.OrderBy(x => x.Id)
+        };
 
-
-        if (apiPagination.Page > 0 && apiPagination.Limit > 0)
+        if (apiPagination is { Page: > 0, Limit: > 0 })
             data = data.Skip((apiPagination.Page - 1) * apiPagination.Limit).Take(apiPagination.Limit);
-
 
         return await data.ToListAsync();
     }

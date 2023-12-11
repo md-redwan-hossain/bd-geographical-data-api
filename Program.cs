@@ -1,3 +1,4 @@
+using System.Text.Json;
 using BdGeographicalData.Api.District;
 using BdGeographicalData.Api.Division;
 using BdGeographicalData.Api.SubDistrict;
@@ -26,6 +27,7 @@ if (envVars.UseSecretsJson == 1)
 builder.Services.AddDbContext<BdGeographicalDataDbContext>(opts =>
     opts.UseSqlite(envVars.DatabaseUrl));
 
+
 builder.Services.AddScoped<IDivisionService, DivisionService>();
 builder.Services.AddScoped<IDistrictService, DistrictService>();
 builder.Services.AddScoped<ISubDistrictService, SubDistrictService>();
@@ -42,7 +44,7 @@ builder.Services
         opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         opts.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(allowIntegerValues: false));
-        opts.JsonSerializerOptions.PropertyNamingPolicy = null;
+        opts.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     });
 
 builder.Services.AddEndpointsApiExplorer();
