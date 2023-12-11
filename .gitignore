@@ -15,4 +15,4 @@ node_modules
 **/app.db-wal
 **/secrets**.json
 **/PublishProfiles
-
+**/.fuse*

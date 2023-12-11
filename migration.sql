@@ -40,7 +40,7 @@ CREATE INDEX "IX_SubDistricts_DistrictId" ON "SubDistricts" ("DistrictId");
 CREATE UNIQUE INDEX "IX_SubDistricts_EnglishName_DistrictId" ON "SubDistricts" ("EnglishName", "DistrictId");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20231120065111_initial migration', '7.0.14');
+VALUES ('20231211185728_initial migration', '8.0.0');
 
 COMMIT;
 

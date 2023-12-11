@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BdGeographicalData.Migrations
 {
     [DbContext(typeof(BdGeographicalDataDbContext))]
-    [Migration("20231120065111_initial migration")]
+    [Migration("20231211185728_initial migration")]
     partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
 
             modelBuilder.Entity("BdGeographicalData.Api.District.Entity.District", b =>
                 {
