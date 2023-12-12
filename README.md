@@ -38,9 +38,9 @@ dotnet restore
 
 - Data can be loaded inside the application in Environment variable fashion through:
 
-  - `appsetting.json` for very generic data.
-  - `development.json` this will be loaded when `ASPNETCORE_ENVIRONMENT ==  Development`
-  - `production.json` this will be loaded when `ASPNETCORE_ENVIRONMENT ==  Production`
+  - `appsetting.json` for generic data.
+  - `appsettings.Development.json` this will be loaded when `ASPNETCORE_ENVIRONMENT ==  Development`
+  - `appsettings.Production.json` this will be loaded when `ASPNETCORE_ENVIRONMENT ==  Production`
   - `secrets.json` for sensitive data.
 
 - These files can accept any valid json value and they must be created in the parent directory (where `Program.cs` is located).

@@ -12,26 +12,23 @@ using Microsoft.AspNetCore.ResponseCaching;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 
-const string productionJson = "production.json";
-const string developmentJson = "development.json";
 const string secretsJson = "secrets.json";
 
 var builder = WebApplication.CreateBuilder(args);
 
 IEnvVariableFactory envVariableFactory;
 
-if (builder.Environment.IsProduction())
+if (builder.Environment.IsDevelopment())
 {
-    builder.Configuration.AddJsonFile(productionJson, optional: false, reloadOnChange: true);
-    envVariableFactory = new ProductionFactory(builder.Configuration);
-    builder.Services.AddSingleton<IEnvVariableFactory, ProductionFactory>();
-}
-else
-{
-    builder.Configuration.AddJsonFile(developmentJson, optional: false, reloadOnChange: true);
     envVariableFactory = new DevelopmentFactory(builder.Configuration);
     builder.Services.AddSingleton<IEnvVariableFactory, DevelopmentFactory>();
 }
+else
+{
+    envVariableFactory = new ProductionFactory(builder.Configuration);
+    builder.Services.AddSingleton<IEnvVariableFactory, ProductionFactory>();
+}
+
 
 var envVariable = envVariableFactory.CreateOrGet();
 
