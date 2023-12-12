@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace BdGeographicalData.Shared;
 
 public class ApiPagination
 {
-    public ushort Page { get; set; }
-    public ushort Limit { get; set; }
+    [FromQuery(Name = "page")] public ushort Page { get; set; }
+    [FromQuery(Name = "limit")] public ushort Limit { get; set; }
 }

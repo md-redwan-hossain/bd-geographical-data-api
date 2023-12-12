@@ -13,6 +13,13 @@ public class EnvVariableValidator : AbstractValidator<EnvVariable>
             .NotEmpty();
 
         RuleFor(envVariable => envVariable.UseSecretsJson)
+            .NotNull()
+            .NotEmpty()
             .InclusiveBetween(-1, 1);
+
+        RuleFor(envVariable => envVariable.CacheDurationInSecond)
+            .NotNull()
+            .NotEmpty()
+            .GreaterThanOrEqualTo(1);
     }
 }

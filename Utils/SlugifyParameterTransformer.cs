@@ -1,6 +1,6 @@
-namespace BdGeographicalData.Shared;
-
 using System.Text.RegularExpressions;
+
+namespace BdGeographicalData.Utils;
 
 public class SlugifyParameterTransformer : IOutboundParameterTransformer
 {

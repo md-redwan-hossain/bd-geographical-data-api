@@ -6,28 +6,25 @@ using BdGeographicalData.Shared;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Text.Json.Serialization;
+using BdGeographicalData.Utils;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using FluentValidation;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-var envVars = new EnvVariable()
-{
-    DatabaseUrl = builder.Configuration.GetConnectionString("DATABASE_URL"),
-    UseSecretsJson = builder.Configuration.GetValue<int>("USE_SECRETS_JSON")
-};
+var envVars = new EnvVariableFactory(builder.Configuration).CreateOrGet();
 
-new EnvVariableValidator().ValidateAndThrow(envVars);
-
-if (envVars.UseSecretsJson == 1)
+if (envVars.UseSecretsJson is 1)
     builder.Configuration.AddJsonFile("secrets.json", optional: false, reloadOnChange: true);
-
 
 builder.Services.AddDbContext<BdGeographicalDataDbContext>(opts =>
     opts.UseSqlite(envVars.DatabaseUrl));
 
 
+builder.Services.AddResponseCaching(x => x.MaximumBodySize = 2048);
+
+builder.Services.AddSingleton<IEnvVariableFactory, EnvVariableFactory>();
 builder.Services.AddScoped<IDivisionService, DivisionService>();
 builder.Services.AddScoped<IDistrictService, DistrictService>();
 builder.Services.AddScoped<ISubDistrictService, SubDistrictService>();
@@ -38,6 +35,12 @@ builder.Services
     {
         opts.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
         opts.OutputFormatters.RemoveType<StringOutputFormatter>();
+        opts.CacheProfiles.Add(Constants.ResponseCacheProfile,
+            new CacheProfile
+            {
+                Duration = envVars.CacheDurationInSecond,
+                Location =  ResponseCacheLocation.Any            
+            });
     })
     .AddJsonOptions(opts =>
     {
@@ -50,6 +53,7 @@ builder.Services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 var app = builder.Build();
 
 app.UseSwagger();
@@ -57,4 +61,6 @@ app.UseSwaggerUI();
 
 app.UseAuthorization();
 app.MapControllers();
+app.UseResponseCaching();
+
 app.Run();
