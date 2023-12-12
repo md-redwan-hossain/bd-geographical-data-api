@@ -52,3 +52,7 @@ dotnet restore
 
 - To store sensitive data in environment variable fashion, you can create `secrets.json` in the parent directory (where `Program.cs` is located) and add any valid json value there.
 - To load data from `secrets.json`, set `"USE_SECRETS_JSON"` to `1` in `appsettings.json`. `-1` will disable the loading of `secrets.json`.
+
+## Response Cache
+- Response Cache is enabled by default. The default cache time is 600 seconds (10 min) which can be changed in `appsettings.json` through `RESPONSE_CACHE_DURATION_IN_SECOND` 
+- Note: Response Cache does not store any data in the server. It is all about how the client will cache the response so that it does not need to send the request again.

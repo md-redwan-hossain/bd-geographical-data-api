@@ -17,7 +17,7 @@ public class EnvVariableValidator : AbstractValidator<EnvVariable>
             .NotEmpty()
             .InclusiveBetween(-1, 1);
 
-        RuleFor(envVariable => envVariable.CacheDurationInSecond)
+        RuleFor(envVariable => envVariable.ResponseCacheDurationInSecond)
             .NotNull()
             .NotEmpty()
             .GreaterThanOrEqualTo(1);

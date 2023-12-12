@@ -11,13 +11,7 @@ namespace BdGeographicalData.Api.District;
 [Produces("application/json")]
 public class DistrictController(IDistrictService districtService) : ControllerBase
 {
-    private const string AddDivisionQueryKey = "add_division";
-    private const string AddSubDistrictsQueryKey = "add_sub_districts";
-
     [HttpGet("{district_id:int}")]
-    [ResponseCache(CacheProfileName = Constants.ResponseCacheProfile,
-        VaryByQueryKeys = new[] { AddDivisionQueryKey, AddSubDistrictsQueryKey })
-    ]
     public async Task<IActionResult> GetById(
         [BindRequired] [FromRoute(Name = "district_id")]
         int id,
@@ -38,9 +32,6 @@ public class DistrictController(IDistrictService districtService) : ControllerBa
     }
 
     [HttpGet("{district_name}")]
-    [ResponseCache(CacheProfileName = Constants.ResponseCacheProfile,
-        VaryByQueryKeys = new[] { AddDivisionQueryKey, AddSubDistrictsQueryKey })
-    ]
     public async Task<IActionResult> GetByEnglishName(
         [BindRequired] [FromRoute(Name = "district_name")]
         string districtName,
@@ -58,23 +49,13 @@ public class DistrictController(IDistrictService districtService) : ControllerBa
             await districtService.FindOneByEnglishName(districtName, divisionName, addDivision, addSubDistricts);
 
         if (result is null)
-            return NotFound("sub district not found");
+            return NotFound("district not found");
 
         return Ok(result.ToDto(addDivision, addSubDistricts));
     }
 
 
     [HttpGet]
-    [ResponseCache(CacheProfileName = Constants.ResponseCacheProfile,
-        VaryByQueryKeys = new[]
-        {
-            AddDivisionQueryKey,
-            AddSubDistrictsQueryKey,
-            Constants.PageQueryKey,
-            Constants.LimitQueryKey,
-            Constants.SortingQueryKey
-        })
-    ]
     public async Task<IActionResult> GetAll(
         [FromQuery] ApiPagination apiPagination,
         [FromQuery(Name = "sort_order")] ApiResponseSortOrder sortOrder,

@@ -11,13 +11,7 @@ namespace BdGeographicalData.Api.Division;
 [Produces("application/json")]
 public class DivisionController(IDivisionService divisionService) : ControllerBase
 {
-    private const string AddDistrictsQueryKey = "add_districts";
-    private const string AddSubDistrictsQueryKey = "add_sub_districts";
-
     [HttpGet("{division_id:int}")]
-    [ResponseCache(CacheProfileName = Constants.ResponseCacheProfile,
-        VaryByQueryKeys = new[] { AddDistrictsQueryKey, AddSubDistrictsQueryKey })
-    ]
     public async Task<IActionResult> GetById(
         [BindRequired] [FromRoute(Name = "division_id")]
         int id,
@@ -38,9 +32,6 @@ public class DivisionController(IDivisionService divisionService) : ControllerBa
     }
 
     [HttpGet("{division_name}")]
-    [ResponseCache(CacheProfileName = Constants.ResponseCacheProfile,
-        VaryByQueryKeys = new[] { AddDistrictsQueryKey, AddSubDistrictsQueryKey })
-    ]
     public async Task<IActionResult> GetByEnglishName(
         [BindRequired] [FromRoute(Name = "division_name")]
         string divisionName,
@@ -62,16 +53,6 @@ public class DivisionController(IDivisionService divisionService) : ControllerBa
 
 
     [HttpGet]
-    [ResponseCache(CacheProfileName = Constants.ResponseCacheProfile,
-        VaryByQueryKeys = new[]
-        {
-            AddDistrictsQueryKey,
-            AddSubDistrictsQueryKey,
-            Constants.PageQueryKey,
-            Constants.LimitQueryKey,
-            Constants.SortingQueryKey
-        })
-    ]
     public async Task<IActionResult> GetAll(
         [FromQuery] ApiPagination apiPagination,
         [FromQuery(Name = "sort_order")] ApiResponseSortOrder sortOrder,

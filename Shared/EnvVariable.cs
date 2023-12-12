@@ -3,7 +3,7 @@ namespace BdGeographicalData.Shared;
 public class EnvVariable
 {
     public string? DatabaseUrl { get; init; }
-    public int CacheDurationInSecond { get; init; }
+    public int ResponseCacheDurationInSecond { get; init; }
 
     public int UseSecretsJson { get; init; }
     // UseSecretsJson can take either -1 or 1

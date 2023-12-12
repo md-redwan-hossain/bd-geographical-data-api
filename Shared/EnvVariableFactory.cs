@@ -14,7 +14,7 @@ public class EnvVariableFactory(IConfiguration configuration) : IEnvVariableFact
         var envVars = new EnvVariable
         {
             DatabaseUrl = configuration.GetConnectionString("DATABASE_URL"),
-            CacheDurationInSecond = configuration.GetValue<int>("CACHE_DURATION_IN_SECOND"),
+            ResponseCacheDurationInSecond = configuration.GetValue<int>("RESPONSE_CACHE_DURATION_IN_SECOND"),
             UseSecretsJson = configuration.GetValue<int>("USE_SECRETS_JSON")
         };
 
