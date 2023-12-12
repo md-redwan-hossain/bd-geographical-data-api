@@ -34,9 +34,27 @@ dotnet restore
 - Port `8080` is the exposed port for docker.
 - For example, for Swagger documentation: [http://localhost:8080/swagger](http://localhost:8080/swagger)
 
+## Environment variable
+
+- Data can be loaded inside the application in Environment variable fashion through:
+
+  - `appsetting.json` for very generic data.
+  - `development.json` this will be loaded when `ASPNETCORE_ENVIRONMENT ==  Development`
+  - `production.json` this will be loaded when `ASPNETCORE_ENVIRONMENT ==  Production`
+  - `secrets.json` for sensitive data.
+
+- These files can accept any valid json value and they must be created in the parent directory (where `Program.cs` is located).
+
+- Loading data from `secrets.json` is controlled by `"USE_SECRETS_JSON"`, it takes either `1` which means true or `-1` which means false.
+
+## Response Cache
+
+- Response Cache is enabled by default. The default cache time is 600 seconds (10 min) which can be changed through `RESPONSE_CACHE_DURATION_IN_SECOND`
+- Note: Response Cache does not store any data in the server. It is all about how the client will cache the response so that it does not need to send the request again.
+
 ## Running from compiled binary
 
-- If you want to run from single executable self-contained binary, port conflict may occur. Simply add the following lines in the existing json object of `appsettings.json` to configure the port of kestrel server.
+- If you want to run from single executable self-contained binary from the release page, port conflict may occur. To solve this issue, add the following lines in the existing json object of any of the files mentioned in [Environment variable](#environment-variable) to configure the port of kestrel server.
 
 ```json
   "Kestrel": {
@@ -47,12 +65,3 @@ dotnet restore
     }
   }
 ```
-
-## Environment variable
-
-- To store sensitive data in environment variable fashion, you can create `secrets.json` in the parent directory (where `Program.cs` is located) and add any valid json value there.
-- To load data from `secrets.json`, set `"USE_SECRETS_JSON"` to `1` in `appsettings.json`. `-1` will disable the loading of `secrets.json`.
-
-## Response Cache
-- Response Cache is enabled by default. The default cache time is 600 seconds (10 min) which can be changed in `appsettings.json` through `RESPONSE_CACHE_DURATION_IN_SECOND` 
-- Note: Response Cache does not store any data in the server. It is all about how the client will cache the response so that it does not need to send the request again.

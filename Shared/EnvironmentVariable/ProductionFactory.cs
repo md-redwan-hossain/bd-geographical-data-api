@@ -1,17 +1,17 @@
 ﻿using FluentValidation;
 
-namespace BdGeographicalData.Shared;
+namespace BdGeographicalData.Shared.EnvironmentVariable;
 
-public class EnvVariableFactory(IConfiguration configuration) : IEnvVariableFactory
+public class ProductionFactory(IConfiguration configuration) : IEnvVariableFactory
 {
-    private static EnvVariable? _envVariable;
+    private static IEnvVariable? _envVariable;
 
-    public EnvVariable CreateOrGet()
+    public IEnvVariable CreateOrGet()
     {
         if (_envVariable is not null)
             return _envVariable;
 
-        var envVars = new EnvVariable
+        var envVars = new Production()
         {
             DatabaseUrl = configuration.GetConnectionString("DATABASE_URL"),
             ResponseCacheDurationInSecond = configuration.GetValue<int>("RESPONSE_CACHE_DURATION_IN_SECOND"),
