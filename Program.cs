@@ -16,6 +16,8 @@ const string secretsJson = "secrets.json";
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddJsonFile(secretsJson, optional: true, reloadOnChange: true);
+
 IEnvVariableFactory envVariableFactory;
 
 if (builder.Environment.IsDevelopment())
@@ -31,9 +33,6 @@ else
 
 
 var envVariable = envVariableFactory.CreateOrGet();
-
-if (envVariable.UseSecretsJson is 1)
-    builder.Configuration.AddJsonFile(secretsJson, optional: false, reloadOnChange: true);
 
 builder.Services.AddDbContext<BdGeographicalDataDbContext>(opts =>
     opts.UseSqlite(envVariable.DatabaseUrl));

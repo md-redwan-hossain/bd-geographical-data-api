@@ -14,8 +14,7 @@ public class ProductionFactory(IConfiguration configuration) : IEnvVariableFacto
         var envVars = new Production()
         {
             DatabaseUrl = configuration.GetConnectionString("DATABASE_URL"),
-            ResponseCacheDurationInSecond = configuration.GetValue<int>("RESPONSE_CACHE_DURATION_IN_SECOND"),
-            UseSecretsJson = configuration.GetValue<int>("USE_SECRETS_JSON")
+            ResponseCacheDurationInSecond = configuration.GetValue<int>("RESPONSE_CACHE_DURATION_IN_SECOND")
         };
 
         new EnvVariableValidator().ValidateAndThrow(envVars);

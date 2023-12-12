@@ -12,11 +12,6 @@ public class EnvVariableValidator : AbstractValidator<IEnvVariable>
             .NotNull()
             .NotEmpty();
 
-        RuleFor(envVariable => envVariable.UseSecretsJson)
-            .NotNull()
-            .NotEmpty()
-            .InclusiveBetween(-1, 1);
-
         RuleFor(envVariable => envVariable.ResponseCacheDurationInSecond)
             .NotNull()
             .NotEmpty()

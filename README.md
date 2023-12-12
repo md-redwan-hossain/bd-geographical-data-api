@@ -41,11 +41,9 @@ dotnet restore
   - `appsetting.json` for generic data.
   - `appsettings.Development.json` this will be loaded when `ASPNETCORE_ENVIRONMENT ==  Development`
   - `appsettings.Production.json` this will be loaded when `ASPNETCORE_ENVIRONMENT ==  Production`
-  - `secrets.json` for sensitive data.
+  - `secrets.json` for sensitive data. It is optional only loaded when the file exists. 
 
 - These files can accept any valid json value and they must be created in the parent directory (where `Program.cs` is located).
-
-- Loading data from `secrets.json` is controlled by `"USE_SECRETS_JSON"`, it takes either `1` which means true or `-1` which means false.
 
 ## Response Cache
 
