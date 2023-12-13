@@ -1,6 +1,6 @@
-﻿namespace BdGeographicalData.Shared.EnvironmentVariable;
+﻿namespace BdGeographicalData.Shared.AppSettings;
 
-public interface IEnvVariable
+public interface IAppSettingsData
 {
     public string? DatabaseUrl { get; init; }
     public int ResponseCacheDurationInSecond { get; init; }

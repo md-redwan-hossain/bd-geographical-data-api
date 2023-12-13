@@ -4,7 +4,7 @@ using BdGeographicalData.Api.District;
 using BdGeographicalData.Api.Division;
 using BdGeographicalData.Api.SubDistrict;
 using BdGeographicalData.Shared;
-using BdGeographicalData.Shared.EnvironmentVariable;
+using BdGeographicalData.Shared.AppSettings;
 using BdGeographicalData.Utils;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -18,32 +18,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile(secretsJson, optional: true, reloadOnChange: true);
 
-IEnvVariableFactory envVariableFactory;
-
-if (builder.Environment.IsDevelopment())
-{
-    envVariableFactory = new DevelopmentFactory(builder.Configuration);
-    builder.Services.AddSingleton<IEnvVariableFactory, DevelopmentFactory>();
-}
-else
-{
-    envVariableFactory = new ProductionFactory(builder.Configuration);
-    builder.Services.AddSingleton<IEnvVariableFactory, ProductionFactory>();
-}
-
-
-var envVariable = envVariableFactory.CreateOrGet();
+IAppSettingsData appSettingsData = new AppSettingsDataResolver(builder.Configuration).Resolve();
 
 builder.Services.AddDbContext<BdGeographicalDataDbContext>(opts =>
-    opts.UseSqlite(envVariable.DatabaseUrl));
+    opts.UseSqlite(appSettingsData.DatabaseUrl));
 
-builder.Services.AddResponseCaching();
-
+builder.Services.AddSingleton<IAppSettingsDataResolver, AppSettingsDataResolver>();
 builder.Services.AddScoped<IDivisionService, DivisionService>();
 builder.Services.AddScoped<IDistrictService, DistrictService>();
 builder.Services.AddScoped<ISubDistrictService, SubDistrictService>();
-
-
+ 
 builder.Services
     .AddControllers(opts =>
     {
@@ -58,6 +42,7 @@ builder.Services
         opts.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     });
 
+builder.Services.AddResponseCaching();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -77,7 +62,7 @@ app.Use((context, next) =>
         new CacheControlHeaderValue()
         {
             Public = true,
-            MaxAge = TimeSpan.FromSeconds(envVariable.ResponseCacheDurationInSecond)
+            MaxAge = TimeSpan.FromSeconds(appSettingsData.ResponseCacheDurationInSecond)
         };
 
     var responseCachingFeature = context.Features.Get<IResponseCachingFeature>();
