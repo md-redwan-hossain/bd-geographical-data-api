@@ -11,12 +11,16 @@ namespace BdGeographicalData.Api.District;
 [Produces("application/json")]
 public class DistrictController(IDistrictService districtService) : ControllerBase
 {
+    private const string AddDivisionQueryKey = "add_division";
+    private const string AddSubDistrictsQueryKey = "add_sub_districts";
+
     [HttpGet("{district_id:int}")]
     public async Task<IActionResult> GetById(
         [BindRequired] [FromRoute(Name = "district_id")]
         int id,
-        [FromQuery(Name = "add_division")] bool addDivision = false,
-        [FromQuery(Name = "add_sub_districts")]
+        [FromQuery(Name = AddDivisionQueryKey)]
+        bool addDivision = false,
+        [FromQuery(Name = AddSubDistrictsQueryKey)]
         bool addSubDistricts = false
     )
     {
@@ -37,8 +41,9 @@ public class DistrictController(IDistrictService districtService) : ControllerBa
         string districtName,
         [BindRequired] [FromQuery(Name = "division_name")]
         string divisionName,
-        [FromQuery(Name = "add_division")] bool addDivision = false,
-        [FromQuery(Name = "add_sub_districts")]
+        [FromQuery(Name = AddDivisionQueryKey)]
+        bool addDivision = false,
+        [FromQuery(Name = AddSubDistrictsQueryKey)]
         bool addSubDistricts = false
     )
     {
@@ -58,10 +63,13 @@ public class DistrictController(IDistrictService districtService) : ControllerBa
     [HttpGet]
     public async Task<IActionResult> GetAll(
         [FromQuery] ApiPagination apiPagination,
-        [FromQuery(Name = "sort_order")] ApiResponseSortOrder sortOrder,
-        [FromQuery(Name = "add_division")] bool addDivision = false,
-        [FromQuery(Name = "add_sub_districts")]
-        bool addSubDistricts = false)
+        [FromQuery(Name = Constant.SortingQueryKey)]
+        ApiResponseSortOrder sortOrder,
+        [FromQuery(Name = AddDivisionQueryKey)]
+        bool addDivision = false,
+        [FromQuery(Name = AddSubDistrictsQueryKey)]
+        bool addSubDistricts = false
+    )
     {
         var result = await districtService.FindAll(
             apiPagination, sortOrder, addDivision, addSubDistricts);

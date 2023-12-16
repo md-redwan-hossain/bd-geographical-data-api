@@ -11,12 +11,16 @@ namespace BdGeographicalData.Api.Division;
 [Produces("application/json")]
 public class DivisionController(IDivisionService divisionService) : ControllerBase
 {
+    private const string AddDistrictsQueryKey = "add_districts";
+    private const string AddSubDistrictsQueryKey = "add_sub_districts";
+
     [HttpGet("{division_id:int}")]
     public async Task<IActionResult> GetById(
         [BindRequired] [FromRoute(Name = "division_id")]
         int id,
-        [FromQuery(Name = "add_districts")] bool addDistricts = false,
-        [FromQuery(Name = "add_sub_districts")]
+        [FromQuery(Name = AddDistrictsQueryKey)]
+        bool addDistricts = false,
+        [FromQuery(Name = AddSubDistrictsQueryKey)]
         bool addSubDistricts = false
     )
     {
@@ -35,8 +39,9 @@ public class DivisionController(IDivisionService divisionService) : ControllerBa
     public async Task<IActionResult> GetByEnglishName(
         [BindRequired] [FromRoute(Name = "division_name")]
         string divisionName,
-        [FromQuery(Name = "add_districts")] bool addDistricts = false,
-        [FromQuery(Name = "add_sub_districts")]
+        [FromQuery(Name = AddDistrictsQueryKey)]
+        bool addDistricts = false,
+        [FromQuery(Name = AddSubDistrictsQueryKey)]
         bool addSubDistricts = false
     )
     {
@@ -55,9 +60,11 @@ public class DivisionController(IDivisionService divisionService) : ControllerBa
     [HttpGet]
     public async Task<IActionResult> GetAll(
         [FromQuery] ApiPagination apiPagination,
-        [FromQuery(Name = "sort_order")] ApiResponseSortOrder sortOrder,
-        [FromQuery(Name = "add_districts")] bool addDistricts = false,
-        [FromQuery(Name = "add_sub_districts")]
+        [FromQuery(Name = Constant.SortingQueryKey)]
+        ApiResponseSortOrder sortOrder,
+        [FromQuery(Name = AddDistrictsQueryKey)]
+        bool addDistricts = false,
+        [FromQuery(Name = AddSubDistrictsQueryKey)]
         bool addSubDistricts = false
     )
     {

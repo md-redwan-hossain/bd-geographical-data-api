@@ -11,12 +11,17 @@ namespace BdGeographicalData.Api.SubDistrict;
 [Produces("application/json")]
 public class SubDistrictController(ISubDistrictService subDistrictService) : ControllerBase
 {
+    private const string AddDivisionQueryKey = "add_division";
+    private const string AddDistrictQueryKey = "add_district";
+
     [HttpGet("{sub_district_id:int}")]
     public async Task<IActionResult> GetById(
         [BindRequired] [FromRoute(Name = "sub_district_id")]
         int id,
-        [FromQuery(Name = "add_division")] bool addDivision = false,
-        [FromQuery(Name = "add_district")] bool addDistrict = false
+        [FromQuery(Name = AddDivisionQueryKey)]
+        bool addDivision = false,
+        [FromQuery(Name = AddDistrictQueryKey)]
+        bool addDistrict = false
     )
     {
         if (!ModelState.IsValid)
@@ -38,8 +43,10 @@ public class SubDistrictController(ISubDistrictService subDistrictService) : Con
         string districtName,
         [BindRequired] [FromQuery(Name = "division_name")]
         string divisionName,
-        [FromQuery(Name = "add_division")] bool addDivision = false,
-        [FromQuery(Name = "add_district")] bool addDistrict = false
+        [FromQuery(Name = AddDivisionQueryKey)]
+        bool addDivision = false,
+        [FromQuery(Name = AddDistrictQueryKey)]
+        bool addDistrict = false
     )
     {
         if (!ModelState.IsValid)
@@ -58,9 +65,12 @@ public class SubDistrictController(ISubDistrictService subDistrictService) : Con
     [HttpGet]
     public async Task<IActionResult> GetAll(
         [FromQuery] ApiPagination apiPagination,
-        [FromQuery(Name = "sort_order")] ApiResponseSortOrder sortOrder,
-        [FromQuery(Name = "add_division")] bool addDivision = false,
-        [FromQuery(Name = "add_district")] bool addDistrict = false
+        [FromQuery(Name = Constant.SortingQueryKey)]
+        ApiResponseSortOrder sortOrder,
+        [FromQuery(Name = AddDivisionQueryKey)]
+        bool addDivision = false,
+        [FromQuery(Name = AddDistrictQueryKey)]
+        bool addDistrict = false
     )
     {
         var result = await subDistrictService.FindAll(apiPagination, sortOrder, addDistrict, addDivision);
