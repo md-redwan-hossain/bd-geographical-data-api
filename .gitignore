@@ -5,7 +5,7 @@ riderModule.iml
 **/bin
 **/obj
 **/*.user
-**/Logs/*
+**/Logs/
 **/.idea
 **/.vscode
 **/.env
