@@ -4,21 +4,21 @@ using Microsoft.Net.Http.Headers;
 
 namespace BdGeographicalData.Shared;
 
-public class Middleware(IAppSettingsData appSettingsData)
+public class ResponseCacheConfigMiddleware(IAppSettingsDataResolver appSettingsDataResolver) : IMiddleware
 {
-    public readonly Func<HttpContext, Func<Task>, Task> ResponseCache = (context, next) =>
+    public Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         context.Response.GetTypedHeaders().CacheControl =
-            new CacheControlHeaderValue()
+            new CacheControlHeaderValue
             {
                 Public = true,
-                MaxAge = TimeSpan.FromSeconds(appSettingsData.ResponseCacheDurationInSecond)
+                MaxAge = TimeSpan.FromSeconds(appSettingsDataResolver.Resolve().ResponseCacheDurationInSecond)
             };
 
         var responseCachingFeature = context.Features.Get<IResponseCachingFeature>();
         if (responseCachingFeature is not null)
             responseCachingFeature.VaryByQueryKeys = new[] { "*" };
 
-        return next();
-    };
+        return next(context);
+    }
 }

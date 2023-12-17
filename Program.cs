@@ -1,18 +1,22 @@
-using Autofac.Extensions.DependencyInjection;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Autofac;
-using BdGeographicalData.Shared.AppSettings;
+using Autofac.Extensions.DependencyInjection;
 using BdGeographicalData.Shared;
+using BdGeographicalData.Shared.AppSettings;
 using BdGeographicalData.Utils;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
-using Serilog.Events;
 using Serilog;
-using System.Text.Json.Serialization;
-using System.Text.Json;
+using Serilog.Events;
+
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
 
 Log.Logger = new LoggerConfiguration()
-    .WriteTo.Async(wt => wt.Console())
+    .ReadFrom.Configuration(configuration)
     .CreateBootstrapLogger();
 
 try
@@ -38,6 +42,7 @@ try
     {
         containerBuilder.RegisterModule(new ApiModule());
     });
+
 
     builder.Services
         .AddControllers(opts =>
@@ -67,7 +72,7 @@ try
     app.MapControllers();
 
     app.UseResponseCaching();
-    app.Use(new Middleware(appSettingsData).ResponseCache);
+    app.UseMiddleware<ResponseCacheConfigMiddleware>();
 
     app.Run();
     return 0;

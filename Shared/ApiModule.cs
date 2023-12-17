@@ -16,18 +16,22 @@ public class ApiModule : Module
             .SingleInstance();
 
         builder
+            .RegisterType<ResponseCacheConfigMiddleware>()
+            .InstancePerLifetimeScope();
+
+        builder
             .RegisterType<DivisionService>()
             .As<IDivisionService>()
-            .InstancePerRequest();
+            .InstancePerLifetimeScope();
 
         builder
             .RegisterType<DistrictService>()
             .As<IDistrictService>()
-            .InstancePerRequest();
+            .InstancePerLifetimeScope();
 
         builder
             .RegisterType<SubDistrictService>()
             .As<ISubDistrictService>()
-            .InstancePerRequest();
+            .InstancePerLifetimeScope();
     }
 }
