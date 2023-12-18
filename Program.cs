@@ -11,22 +11,21 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 
+var builder = WebApplication.CreateBuilder(args);
 
 Log.Logger = new LoggerConfiguration()
-    .WriteTo.Async(wt => wt.Console())
+    .ReadFrom.Configuration(builder.Configuration)
     .CreateBootstrapLogger();
+
+builder.Host.UseSerilog((_, loggerConfiguration) => loggerConfiguration
+    .MinimumLevel.Debug()
+    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+    .Enrich.FromLogContext()
+    .ReadFrom.Configuration(builder.Configuration)
+);
 
 try
 {
-    var builder = WebApplication.CreateBuilder(args);
-
-    builder.Host.UseSerilog((_, loggerConfiguration) => loggerConfiguration
-        .MinimumLevel.Debug()
-        .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-        .Enrich.FromLogContext()
-        .ReadFrom.Configuration(builder.Configuration)
-    );
-
     builder.Configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
 
     var appSettingsData = new AppSettingsDataResolver(builder.Configuration).Resolve();
