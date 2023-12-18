@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BdGeographicalData.Migrations
 {
     [DbContext(typeof(BdGeographicalDataDbContext))]
-    [Migration("20231211185728_initial migration")]
+    [Migration("20231218114747_initial migration")]
     partial class initialmigration
     {
         /// <inheritdoc />

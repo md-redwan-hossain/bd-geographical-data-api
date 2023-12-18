@@ -22,13 +22,25 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="app.db">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+      <Folder Include="Logs\" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Logs\" />
+      <_ContentIncludedByDefault Remove="BdGeographicalData.Api\bin\Debug\net8.0\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="BdGeographicalData.Api\bin\Debug\net8.0\appsettings.json" />
+      <_ContentIncludedByDefault Remove="BdGeographicalData.Api\bin\Debug\net8.0\appsettings.Production.json" />
+      <_ContentIncludedByDefault Remove="BdGeographicalData.Api\bin\Debug\net8.0\BdGeographicalData.Api.deps.json" />
+      <_ContentIncludedByDefault Remove="BdGeographicalData.Api\bin\Debug\net8.0\BdGeographicalData.Api.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="BdGeographicalData.Api\obj\BdGeographicalData.Api.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="BdGeographicalData.Api\obj\Debug\net8.0\BdGeographicalData.Api.sourcelink.json" />
+      <_ContentIncludedByDefault Remove="BdGeographicalData.Api\obj\Debug\net8.0\staticwebassets.build.json" />
+      <_ContentIncludedByDefault Remove="BdGeographicalData.Api\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="BdGeographicalData.Api\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="BdGeographicalData.Domain\bin\Debug\net8.0\BdGeographicalData.Domain.deps.json" />
+      <_ContentIncludedByDefault Remove="BdGeographicalData.Domain\obj\BdGeographicalData.Domain.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="BdGeographicalData.Domain\obj\Debug\net8.0\BdGeographicalData.Domain.sourcelink.json" />
+      <_ContentIncludedByDefault Remove="BdGeographicalData.Domain\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="BdGeographicalData.Domain\obj\project.packagespec.json" />
     </ItemGroup>
 
 </Project>

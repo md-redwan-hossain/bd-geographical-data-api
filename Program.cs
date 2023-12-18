@@ -11,12 +11,9 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 
-var configuration = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .Build();
 
 Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(configuration)
+    .WriteTo.Async(wt => wt.Console())
     .CreateBootstrapLogger();
 
 try
@@ -77,9 +74,15 @@ try
     app.Run();
     return 0;
 }
+
+catch (HostAbortedException)
+{
+    Log.Information("HostAbortedException skipped");
+    return 0;
+}
+
 catch (Exception e)
 {
-    Console.WriteLine(e);
     Log.Fatal(e, "Failed to start application");
     return 1;
 }
