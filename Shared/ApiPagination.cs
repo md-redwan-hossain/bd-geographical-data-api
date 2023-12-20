@@ -4,9 +4,9 @@ namespace BdGeographicalData.Shared;
 
 public class ApiPagination
 {
-    [FromQuery(Name = Constant.PageQueryKey)]
+    [FromQuery(Name = Constants.PageQueryKey)]
     public ushort Page { get; set; }
 
-    [FromQuery(Name = Constant.LimitQueryKey)]
+    [FromQuery(Name = Constants.LimitQueryKey)]
     public ushort Limit { get; set; }
 }

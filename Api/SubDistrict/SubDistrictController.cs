@@ -65,7 +65,7 @@ public class SubDistrictController(ISubDistrictService subDistrictService) : Con
     [HttpGet]
     public async Task<IActionResult> GetAll(
         [FromQuery] ApiPagination apiPagination,
-        [FromQuery(Name = Constant.SortingQueryKey)]
+        [FromQuery(Name = Constants.SortingQueryKey)]
         ApiResponseSortOrder sortOrder,
         [FromQuery(Name = AddDivisionQueryKey)]
         bool addDivision = false,

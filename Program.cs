@@ -3,35 +3,48 @@ using System.Text.Json.Serialization;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using BdGeographicalData.Shared;
-using BdGeographicalData.Shared.AppSettings;
 using BdGeographicalData.Utils;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Events;
 
-var builder = WebApplication.CreateBuilder(args);
 
 Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
+    .WriteTo.Async(wt => wt.Console())
     .CreateBootstrapLogger();
 
-builder.Host.UseSerilog((_, loggerConfiguration) => loggerConfiguration
-    .MinimumLevel.Debug()
-    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-    .Enrich.FromLogContext()
-    .ReadFrom.Configuration(builder.Configuration)
-);
 
 try
 {
-    builder.Configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
+    var builder = WebApplication.CreateBuilder(args);
 
-    var appSettingsData = new AppSettingsDataResolver(builder.Configuration).Resolve();
+    builder.Configuration.AddJsonFile(Constants.SecretsJsonFileName, optional: true, reloadOnChange: true);
+
+    builder.Host.UseSerilog((_, loggerConfiguration) => loggerConfiguration
+        .MinimumLevel.Debug()
+        .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+        .Enrich.FromLogContext()
+        .ReadFrom.Configuration(builder.Configuration)
+    );
+
+    builder.Services.AddOptions<AppOptions>()
+        .BindConfiguration(Constants.AppOptions)
+        .ValidateDataAnnotations()
+        .ValidateOnStart();
+
+    var section = builder.Configuration.GetSection(Constants.AppOptions);
+    var options = new AppOptions
+    {
+        DatabaseUrl = section.GetValue<string>("DatabaseUrl"),
+        ResponseCacheDurationInSecond = section.GetValue<int>("ResponseCacheDurationInSecond")
+    };
+
 
     builder.Services.AddDbContext<BdGeographicalDataDbContext>(opts =>
-        opts.UseSqlite(appSettingsData.DatabaseUrl));
+        opts.UseSqlite(options.DatabaseUrl));
 
     builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
     builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
@@ -80,8 +93,14 @@ catch (HostAbortedException)
     return 0;
 }
 
+catch (OptionsValidationException)
+{
+    return 1;
+}
+
 catch (Exception e)
 {
+    Console.WriteLine(e.GetType());
     Log.Fatal(e, "Failed to start application");
     return 1;
 }
