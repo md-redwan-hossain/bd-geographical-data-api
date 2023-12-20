@@ -20,15 +20,5 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="BdGeographicalData.Application\obj\BdGeographicalData.Application.csproj.nuget.dgspec.json" />
-      <_ContentIncludedByDefault Remove="BdGeographicalData.Application\obj\project.assets.json" />
-      <_ContentIncludedByDefault Remove="BdGeographicalData.Application\obj\project.packagespec.json" />
-      <_ContentIncludedByDefault Remove="BdGeographicalData.HttpApi\obj\BdGeographicalData.Api.csproj.nuget.dgspec.json" />
-      <_ContentIncludedByDefault Remove="BdGeographicalData.HttpApi\obj\BdGeographicalData.HttpApi.csproj.nuget.dgspec.json" />
-      <_ContentIncludedByDefault Remove="BdGeographicalData.HttpApi\obj\project.assets.json" />
-      <_ContentIncludedByDefault Remove="BdGeographicalData.HttpApi\obj\project.packagespec.json" />
-    </ItemGroup>
     
 </Project>
