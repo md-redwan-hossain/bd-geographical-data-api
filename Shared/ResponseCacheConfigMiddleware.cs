@@ -18,7 +18,6 @@ public class ResponseCacheConfigMiddleware(IOptions<AppOptions> options) : IMidd
         var responseCachingFeature = context.Features.Get<IResponseCachingFeature>();
         if (responseCachingFeature is not null)
             responseCachingFeature.VaryByQueryKeys = new[] { "*" };
-
         return next(context);
     }
 }

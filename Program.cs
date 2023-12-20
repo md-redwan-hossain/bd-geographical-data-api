@@ -1,7 +1,8 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
+using BdGeographicalData.Api.District;
+using BdGeographicalData.Api.Division;
+using BdGeographicalData.Api.SubDistrict;
 using BdGeographicalData.Shared;
 using BdGeographicalData.Utils;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -16,18 +17,26 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Async(wt => wt.Console())
     .CreateBootstrapLogger();
 
-
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+
 
     builder.Configuration.AddJsonFile(Constants.SecretsJsonFileName, optional: true, reloadOnChange: true);
 
     builder.Host.UseSerilog((_, loggerConfiguration) => loggerConfiguration
         .MinimumLevel.Debug()
         .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+        .MinimumLevel.Override("System", LogEventLevel.Warning)
         .Enrich.FromLogContext()
-        .ReadFrom.Configuration(builder.Configuration)
+        .WriteTo.Async(x => x.Console(
+            restrictedToMinimumLevel: LogEventLevel.Information,
+            outputTemplate: Constants.SerilogConsoleOutputTemplate
+        ))
+        .WriteTo.Async(x => x.AsyncRollingFile(
+            restrictedToMinimumLevel: LogEventLevel.Error,
+            pathFormat: Constants.SerilogFilePath
+        ))
     );
 
     builder.Services.AddOptions<AppOptions>()
@@ -42,15 +51,13 @@ try
         ResponseCacheDurationInSecond = section.GetValue<int>("ResponseCacheDurationInSecond")
     };
 
-
     builder.Services.AddDbContext<BdGeographicalDataDbContext>(opts =>
         opts.UseSqlite(options.DatabaseUrl));
 
-    builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-    builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
-    {
-        containerBuilder.RegisterModule(new ApiModule());
-    });
+    builder.Services.AddScoped<ResponseCacheConfigMiddleware>();
+    builder.Services.AddScoped<IDivisionService, DivisionService>();
+    builder.Services.AddScoped<IDistrictService, DistrictService>();
+    builder.Services.AddScoped<ISubDistrictService, SubDistrictService>();
 
 
     builder.Services
@@ -100,7 +107,7 @@ catch (OptionsValidationException)
 
 catch (Exception e)
 {
-    Console.WriteLine(e.GetType());
+    Console.WriteLine(e);
     Log.Fatal(e, "Failed to start application");
     return 1;
 }
