@@ -1,6 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdGeographicalData", "BdGeographicalData.csproj", "{1B4E2958-A9BF-42F0-ABFA-D4A9A5FE5DCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdGeographicalData.Domain", "BdGeographicalData.Domain\BdGeographicalData.Domain.csproj", "{CBB6B4CD-865A-4842-97B1-296EEAA89A31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdGeographicalData.Application", "BdGeographicalData.Application\BdGeographicalData.Application.csproj", "{02371AB9-8961-4036-8E65-E8C938574261}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdGeographicalData.HttpApi", "BdGeographicalData.HttpApi\BdGeographicalData.HttpApi.csproj", "{CE451839-4BC7-4022-96E3-F64C242F111F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdGeographicalData.Persistence", "BdGeographicalData.Persistence\BdGeographicalData.Persistence.csproj", "{CEDDDCB9-CA0D-41C7-A4B4-93C560CF2997}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +18,21 @@ Global
 		{1B4E2958-A9BF-42F0-ABFA-D4A9A5FE5DCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B4E2958-A9BF-42F0-ABFA-D4A9A5FE5DCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B4E2958-A9BF-42F0-ABFA-D4A9A5FE5DCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBB6B4CD-865A-4842-97B1-296EEAA89A31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBB6B4CD-865A-4842-97B1-296EEAA89A31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBB6B4CD-865A-4842-97B1-296EEAA89A31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBB6B4CD-865A-4842-97B1-296EEAA89A31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02371AB9-8961-4036-8E65-E8C938574261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02371AB9-8961-4036-8E65-E8C938574261}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02371AB9-8961-4036-8E65-E8C938574261}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02371AB9-8961-4036-8E65-E8C938574261}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE451839-4BC7-4022-96E3-F64C242F111F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE451839-4BC7-4022-96E3-F64C242F111F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE451839-4BC7-4022-96E3-F64C242F111F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE451839-4BC7-4022-96E3-F64C242F111F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEDDDCB9-CA0D-41C7-A4B4-93C560CF2997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEDDDCB9-CA0D-41C7-A4B4-93C560CF2997}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEDDDCB9-CA0D-41C7-A4B4-93C560CF2997}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEDDDCB9-CA0D-41C7-A4B4-93C560CF2997}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
