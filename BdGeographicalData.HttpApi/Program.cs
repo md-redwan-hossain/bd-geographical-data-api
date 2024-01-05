@@ -70,12 +70,11 @@ try
             opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             opts.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(allowIntegerValues: false));
-            opts.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
+            opts.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
         });
 
     // builder.Services.AddResponseCaching();
     builder.Services.AddEndpointsApiExplorer();
-    // builder.Services.AddSwaggerGen(c => c.DescribeAllParametersInCamelCase());
     builder.Services.AddSwaggerGen();
 
     var app = builder.Build();

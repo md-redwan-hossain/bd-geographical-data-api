@@ -11,29 +11,20 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
-        <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
-        <PackageReference Include="Serilog.Sinks.AsyncRollingFile" Version="1.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0"/>
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.0"/>
+        <PackageReference Include="Serilog.Sinks.AsyncRollingFile" Version="1.0.0"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-    </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\BdGeographicalData.Application\BdGeographicalData.Application.csproj" />
-      <ProjectReference Include="..\BdGeographicalData.Domain\BdGeographicalData.Domain.csproj" />
-      <ProjectReference Include="..\BdGeographicalData.Persistence\BdGeographicalData.Persistence.csproj" />
+        <ProjectReference Include="..\BdGeographicalData.Application\BdGeographicalData.Application.csproj"/>
+        <ProjectReference Include="..\BdGeographicalData.Domain\BdGeographicalData.Domain.csproj"/>
+        <ProjectReference Include="..\BdGeographicalData.Persistence\BdGeographicalData.Persistence.csproj"/>
     </ItemGroup>
 
 </Project>
