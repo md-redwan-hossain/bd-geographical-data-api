@@ -53,7 +53,7 @@ try
         opts.UseSqlite(options.DatabaseUrl));
 
     // builder.Services.AddScoped<ResponseCacheConfigMiddleware>();
-    // builder.Services.AddScoped<IDivisionService, DivisionService>();
+    builder.Services.AddScoped<IDivisionService, DivisionService>();
     builder.Services.AddScoped<IDistrictService, DistrictService>();
     builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
     // builder.Services.AddScoped<ISubDistrictService, SubDistrictService>();

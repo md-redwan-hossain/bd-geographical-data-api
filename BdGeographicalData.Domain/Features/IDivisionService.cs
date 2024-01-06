@@ -5,10 +5,13 @@ namespace BdGeographicalData.Domain.Features;
 
 public interface IDivisionService
 {
-    Task<Division?> FindOneById(int id, bool addDistricts, bool addSubDistricts);
+    Task<Tuple<Division, List<Tuple<District, List<SubDistrict>>>>?>
+        FindOneById(int id, (bool districts, bool subDistricts) includeRelation);
 
-    Task<Division?> FindOneByEnglishName(string divisionName, bool addDistricts, bool addSubDistricts);
+    Task<(Division division, IList<District> districts, IList<SubDistrict> subDistricts)?>
+        FindOneByEnglishName(string divisionName,
+            (bool districts, bool subDistricts) includeRelation);
 
-    Task<IEnumerable<Division>> FindAll(ApiPagination apiPagination,
-        bool addDistricts, bool addSubDistricts);
+    Task<IList<Tuple<Division, IList<District>, IList<SubDistrict>>>>
+        FindAll(ApiPagination apiPagination, bool districts, bool subDistricts);
 }
