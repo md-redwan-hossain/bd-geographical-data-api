@@ -37,7 +37,7 @@ namespace BdGeographicalData.Application
                 entity.division = data?.Item1;
 
                 entity.relatedData = data?.Item2
-                    .Select(tuple => (tuple.Item1, new List<SubDistrict>()))
+                    .Select(x => (x.Item1, x.Item2))
                     .ToList() ?? [];
 
                 return entity;

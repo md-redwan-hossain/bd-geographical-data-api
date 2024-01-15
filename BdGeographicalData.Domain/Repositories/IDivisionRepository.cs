@@ -6,9 +6,9 @@ namespace BdGeographicalData.Domain
     {
       public Task<Division?> FindOneById(int id);
 
-      Task<Tuple<Division?, IList<District>>?> FindOneByIdWithDistrict(int id);
+      Task<Tuple<Division?, List<District>>?> FindOneByIdWithDistrict(int id);
 
-      Task<Tuple<Division, IList<Tuple<District, IList<SubDistrict>>>>?>
+      Task<Tuple<Division, List<Tuple<District, List<SubDistrict>>>>?>
           FindOneByIdWithDistrictAndSubDistricts(int id);
 
     }
