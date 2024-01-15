@@ -15,7 +15,7 @@ namespace BdGeographicalData.Infrastructure
       .FirstOrDefaultAsync();
     }
 
-    public Task<Tuple<Division?, List<District>>?> FindOneByIdWithDistrict(int id)
+    public Task<Tuple<Division?, List<District>>?> FindOneByIdWithDistricts(int id)
     {
       var query = dbContext.Divisions
        .Where(div => div.Id == id)
@@ -32,7 +32,7 @@ namespace BdGeographicalData.Infrastructure
     }
 
     public Task<Tuple<Division, List<Tuple<District, List<SubDistrict>>>>?>
-     FindOneByIdWithDistrictAndSubDistricts(int id)
+     FindOneByIdWithDistrictsAndSubDistricts(int id)
     {
       var query = dbContext.Divisions
           .Where(div => div.Id == id)

@@ -2,7 +2,7 @@ using BdGeographicalData.Domain.Entities;
 using BdGeographicalData.Domain.Features;
 using BdGeographicalData.Domain.Misc;
 
-namespace BdGeographicalData.Application
+namespace BdGeographicalData.Application.Features
 {
     public class DivisionService(IApplicationUnitOfWork applicationUnitOfWork) : IDivisionService
     {
@@ -21,7 +21,7 @@ namespace BdGeographicalData.Application
 
             else if (includeRelation.districts && !includeRelation.subDistricts)
             {
-                var data = await applicationUnitOfWork.DivisionRepository.FindOneByIdWithDistrict(id);
+                var data = await applicationUnitOfWork.DivisionRepository.FindOneByIdWithDistricts(id);
 
                 entity.division = data?.Item1;
                 entity.relatedData = data?.Item2
@@ -32,7 +32,7 @@ namespace BdGeographicalData.Application
             }
             else
             {
-                var data = await applicationUnitOfWork.DivisionRepository.FindOneByIdWithDistrictAndSubDistricts(id);
+                var data = await applicationUnitOfWork.DivisionRepository.FindOneByIdWithDistrictsAndSubDistricts(id);
 
                 entity.division = data?.Item1;
 

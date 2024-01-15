@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using BdGeographicalData.Application.Features;
 using BdGeographicalData.Domain.Features;
 
 namespace BdGeographicalData.Application
