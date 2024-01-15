@@ -1,40 +1,60 @@
 using BdGeographicalData.Domain.Entities;
 using BdGeographicalData.Domain.Features;
 using BdGeographicalData.Domain.Misc;
-using BdGeographicalData.Persistence;
-using Microsoft.EntityFrameworkCore;
 
-namespace BdGeographicalData.Application;
-
-public class DivisionService(IApplicationDbContext dbContext) : IDivisionService
+namespace BdGeographicalData.Application
 {
-    public Task<Tuple<Division, List<Tuple<District, List<SubDistrict>>>>?>
-        FindOneById(int id, (bool districts, bool subDistricts) includeRelation)
+    public class DivisionService(IApplicationUnitOfWork applicationUnitOfWork) : IDivisionService
     {
-        var query = dbContext.Divisions
-            .Where(div => div.Id == id)
-            .Select(div => new Tuple<Division, List<Tuple<District, List<SubDistrict>>>>(
-                div,
-                dbContext.Districts
-                    .Where(dist => dist.DivisionId == div.Id)
-                    .Select(dist => new Tuple<District, List<SubDistrict>>(
-                        dist,
-                        dbContext.SubDistricts.Where(subDist => subDist.DistrictId == dist.Id).ToList()
-                    ))
-                    .ToList()
-            )).FirstOrDefaultAsync();
-        return query;
-    }
+        public async Task<(Division? division, IList<(District district, List<SubDistrict> subDistricts)> relatedData)> FindOneById
+            (int id, (bool districts, bool subDistricts) includeRelation)
+        {
+            (Division? division, IList<(District district, List<SubDistrict> subDistricts)> relatedData) entity;
 
-    public Task<(Division division, IList<District> districts, IList<SubDistrict> subDistricts)?>
-        FindOneByEnglishName(string divisionName, (bool districts, bool subDistricts) includeRelation)
-    {
-        throw new NotImplementedException();
-    }
+            if (!includeRelation.districts && !includeRelation.subDistricts)
+            {
+                var data = await applicationUnitOfWork.DivisionRepository.FindOneById(id);
+                entity.division = data;
+                entity.relatedData = [];
+                return entity;
+            }
 
-    public Task<IList<Tuple<Division, IList<District>, IList<SubDistrict>>>>
-        FindAll(ApiPagination apiPagination, bool districts, bool subDistricts)
-    {
-        throw new NotImplementedException();
+            else if (includeRelation.districts && !includeRelation.subDistricts)
+            {
+                var data = await applicationUnitOfWork.DivisionRepository.FindOneByIdWithDistrict(id);
+
+                entity.division = data?.Item1;
+                entity.relatedData = data?.Item2
+                    .Select(district => (district, subDistricts: new List<SubDistrict>()))
+                    .ToList() ?? [];
+
+                return entity;
+            }
+            else
+            {
+                var data = await applicationUnitOfWork.DivisionRepository.FindOneByIdWithDistrictAndSubDistricts(id);
+
+                entity.division = data?.Item1;
+
+                entity.relatedData = data?.Item2
+                    .Select(tuple => (tuple.Item1, new List<SubDistrict>()))
+                    .ToList() ?? [];
+
+                return entity;
+            }
+
+        }
+
+        public Task<(Division division, IList<District> districts, IList<SubDistrict> subDistricts)?>
+            FindOneByEnglishName(string divisionName, (bool districts, bool subDistricts) includeRelation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<Tuple<Division, IList<District>, IList<SubDistrict>>>>
+            FindAll(ApiPagination apiPagination, bool districts, bool subDistricts)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

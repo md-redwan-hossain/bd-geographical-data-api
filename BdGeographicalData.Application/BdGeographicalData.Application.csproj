@@ -1,14 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\BdGeographicalData.Domain\BdGeographicalData.Domain.csproj" />
-      <ProjectReference Include="..\BdGeographicalData.Persistence\BdGeographicalData.Persistence.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BdGeographicalData.Domain\BdGeographicalData.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\" />
+    <Folder Include="Features\Interfaces\" />
+  </ItemGroup>
 
 </Project>

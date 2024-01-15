@@ -1,5 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdGeographicalData.Domain", "BdGeographicalData.Domain\BdGeographicalData.Domain.csproj", "{CBB6B4CD-865A-4842-97B1-296EEAA89A31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdGeographicalData.Application", "BdGeographicalData.Application\BdGeographicalData.Application.csproj", "{02371AB9-8961-4036-8E65-E8C938574261}"
@@ -7,6 +8,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdGeographicalData.HttpApi", "BdGeographicalData.HttpApi\BdGeographicalData.HttpApi.csproj", "{CE451839-4BC7-4022-96E3-F64C242F111F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdGeographicalData.Persistence", "BdGeographicalData.Persistence\BdGeographicalData.Persistence.csproj", "{CEDDDCB9-CA0D-41C7-A4B4-93C560CF2997}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdGeographicalData.Infrastructure", "BdGeographicalData.Infrastructure\BdGeographicalData.Infrastructure.csproj", "{73DB20C7-4382-4A51-B624-895436FCBADE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,5 +37,9 @@ Global
 		{CEDDDCB9-CA0D-41C7-A4B4-93C560CF2997}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEDDDCB9-CA0D-41C7-A4B4-93C560CF2997}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEDDDCB9-CA0D-41C7-A4B4-93C560CF2997}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73DB20C7-4382-4A51-B624-895436FCBADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73DB20C7-4382-4A51-B624-895436FCBADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73DB20C7-4382-4A51-B624-895436FCBADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73DB20C7-4382-4A51-B624-895436FCBADE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

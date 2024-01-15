@@ -1,8 +1,9 @@
-namespace BdGeographicalData.Domain.Misc;
-
-public class ApiPagination
+namespace BdGeographicalData.Domain.Misc
 {
-    public ushort Page { get; set; }
+    public class ApiPagination
+    {
+        public ushort Page { get; set; }
 
-    public ushort Limit { get; set; }
+        public ushort Limit { get; set; }
+    }
 }

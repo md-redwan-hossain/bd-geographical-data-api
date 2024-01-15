@@ -1,19 +1,20 @@
 using System.Text.RegularExpressions;
 
-namespace BdGeographicalData.HttpApi.Utils;
-
-public class SlugifyParameterTransformer : IOutboundParameterTransformer
+namespace BdGeographicalData.HttpApi.Utils
 {
-    public string? TransformOutbound(object? value)
+    public class SlugifyParameterTransformer : IOutboundParameterTransformer
     {
-        if (value == null)
-            return null;
+        public string? TransformOutbound(object? value)
+        {
+            if (value == null)
+                return null;
 
 
-        return Regex.Replace(value.ToString()!,
-            "([a-z])([A-Z])",
-            "$1-$2",
-            RegexOptions.CultureInvariant,
-            TimeSpan.FromMilliseconds(100)).ToLowerInvariant();
+            return Regex.Replace(value.ToString()!,
+                "([a-z])([A-Z])",
+                "$1-$2",
+                RegexOptions.CultureInvariant,
+                TimeSpan.FromMilliseconds(100)).ToLowerInvariant();
+        }
     }
 }

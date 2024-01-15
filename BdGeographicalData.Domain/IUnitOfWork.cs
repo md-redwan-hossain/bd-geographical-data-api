@@ -1,7 +1,8 @@
-namespace BdGeographicalData.Domain;
-
-public interface IUnitOfWork : IDisposable, IAsyncDisposable
+namespace BdGeographicalData.Domain
 {
-    void Save();
-    Task SaveAsync();
+    public interface IUnitOfWork : IDisposable, IAsyncDisposable
+    {
+        void Save();
+        Task SaveAsync();
+    }
 }

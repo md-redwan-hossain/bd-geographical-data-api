@@ -1,8 +1,11 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using BdGeographicalData.Application;
 using BdGeographicalData.Domain.Features;
 using BdGeographicalData.HttpApi.Utils;
+using BdGeographicalData.Infrastructure;
 using BdGeographicalData.Persistence;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -52,11 +55,12 @@ try
     builder.Services.AddDbContext<ApplicationDbContext>(opts =>
         opts.UseSqlite(options.DatabaseUrl));
 
-    // builder.Services.AddScoped<ResponseCacheConfigMiddleware>();
-    builder.Services.AddScoped<IDivisionService, DivisionService>();
-    builder.Services.AddScoped<IDistrictService, DistrictService>();
-    builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-    // builder.Services.AddScoped<ISubDistrictService, SubDistrictService>();
+    builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+    builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+    {
+        containerBuilder.RegisterModule(new ApplicationModule());
+        containerBuilder.RegisterModule(new InfrastructureModule());
+    });
 
 
     builder.Services
