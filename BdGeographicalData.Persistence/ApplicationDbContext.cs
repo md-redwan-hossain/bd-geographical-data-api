@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace BdGeographicalData.Persistence
 {
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : DbContext(options), IApplicationDbContext
+        : DbContext(options)
     {
         public DbSet<Division> Divisions { get; set; }
         public DbSet<District> Districts { get; set; }

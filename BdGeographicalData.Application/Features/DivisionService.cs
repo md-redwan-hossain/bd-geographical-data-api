@@ -6,47 +6,17 @@ namespace BdGeographicalData.Application.Features
 {
     public class DivisionService(IApplicationUnitOfWork applicationUnitOfWork) : IDivisionService
     {
-        public async Task<(Division? division, IList<(District district, List<SubDistrict> subDistricts)> relatedData)> FindOneById
-            (int id, (bool districts, bool subDistricts) includeRelation)
+        public async Task<Tuple<Division, List<Tuple<District, List<SubDistrict>>>>?> FindOneById
+            (int id, (bool districts, bool subDistricts) includeRelatedData)
         {
-            (Division? division, IList<(District district, List<SubDistrict> subDistricts)> relatedData) entity;
 
-            if (!includeRelation.districts && !includeRelation.subDistricts)
-            {
-                var data = await applicationUnitOfWork.DivisionRepository.FindOneById(id);
-                entity.division = data;
-                entity.relatedData = [];
-                return entity;
-            }
 
-            else if (includeRelation.districts && !includeRelation.subDistricts)
-            {
-                var data = await applicationUnitOfWork.DivisionRepository.FindOneByIdWithDistricts(id);
 
-                entity.division = data?.Item1;
-                entity.relatedData = data?.Item2
-                    .Select(district => (district, subDistricts: new List<SubDistrict>()))
-                    .ToList() ?? [];
-
-                return entity;
-            }
-            else
-            {
-                var data = await applicationUnitOfWork.DivisionRepository.FindOneByIdWithDistrictsAndSubDistricts(id);
-
-                entity.division = data?.Item1;
-
-                entity.relatedData = data?.Item2
-                    .Select(x => (x.Item1, x.Item2))
-                    .ToList() ?? [];
-
-                return entity;
-            }
-
+            return await applicationUnitOfWork.DivisionRepository.FindOneById(id, includeRelatedData);
         }
 
         public Task<(Division division, IList<District> districts, IList<SubDistrict> subDistricts)?>
-            FindOneByEnglishName(string divisionName, (bool districts, bool subDistricts) includeRelation)
+            FindOneByEnglishName(string divisionName, (bool districts, bool subDistricts) includeRelatedData)
         {
             throw new NotImplementedException();
         }

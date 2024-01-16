@@ -7,32 +7,54 @@ namespace BdGeographicalData.Infrastructure
 {
   public class DivisionRepository(ApplicationDbContext dbContext) : IDivisionRepository
   {
-    public async Task<Division?> FindOneById(int id)
+    public Task<Tuple<Division, List<Tuple<District, List<SubDistrict>>>>?>
+    FindOneById(int id, (bool districts, bool subDistricts) includeRelatedData)
     {
-      return await dbContext.Divisions
-      .Where(div => div.Id == id)
-      .AsNoTracking()
-      .FirstOrDefaultAsync();
+      if (includeRelatedData.districts && includeRelatedData.subDistricts)
+        return FindOneByIdWithDistrictsAndSubDistricts(id);
+
+      else if (includeRelatedData.districts && !includeRelatedData.subDistricts)
+        return FindOneByIdWithDistricts(id);
+
+      else return FindOneByIdWithoutRelatedData(id);
     }
 
-    public Task<Tuple<Division?, List<District>>?> FindOneByIdWithDistricts(int id)
+
+    private Task<Tuple<Division, List<Tuple<District, List<SubDistrict>>>>?> FindOneByIdWithoutRelatedData(int id)
     {
       var query = dbContext.Divisions
-       .Where(div => div.Id == id)
-       .Select(div => new Tuple<Division?, List<District>>(
-           div,
-           dbContext.Districts
-           .Where(dist => dist.DivisionId == div.Id)
-           .ToList()
-       ))
-       .AsNoTracking()
-       .FirstOrDefaultAsync();
+          .Where(div => div.Id == id)
+          .Select(div => new Tuple<Division, List<Tuple<District, List<SubDistrict>>>>(
+              div,
+              new List<Tuple<District, List<SubDistrict>>>()
+          ))
+          .AsNoTracking()
+          .FirstOrDefaultAsync();
 
       return query;
+
     }
 
-    public Task<Tuple<Division, List<Tuple<District, List<SubDistrict>>>>?>
-     FindOneByIdWithDistrictsAndSubDistricts(int id)
+
+    private Task<Tuple<Division, List<Tuple<District, List<SubDistrict>>>>?> FindOneByIdWithDistricts(int id)
+    {
+      var query = dbContext.Divisions
+          .Where(div => div.Id == id)
+          .Select(div => new Tuple<Division, List<Tuple<District, List<SubDistrict>>>>(
+              div,
+              dbContext.Districts
+                  .Where(dist => dist.DivisionId == div.Id)
+                  .Select(dist => new Tuple<District, List<SubDistrict>>(
+                      dist, new List<SubDistrict>())).ToList()
+          ))
+          .AsNoTracking()
+          .FirstOrDefaultAsync();
+
+      return query;
+
+    }
+
+    private Task<Tuple<Division, List<Tuple<District, List<SubDistrict>>>>?> FindOneByIdWithDistrictsAndSubDistricts(int id)
     {
       var query = dbContext.Divisions
           .Where(div => div.Id == id)
@@ -47,6 +69,7 @@ namespace BdGeographicalData.Infrastructure
           ))
           .AsNoTracking()
           .FirstOrDefaultAsync();
+
       return query;
     }
   }

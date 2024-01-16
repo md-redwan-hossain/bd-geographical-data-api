@@ -25,11 +25,31 @@ namespace BdGeographicalData.HttpApi.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var (division, relatedData) = await divisionService.FindOneById(id, (addDistricts, addSubDistricts));
+            var result = await divisionService.FindOneById(id, (addDistricts, addSubDistricts));
 
-            if (division is null) return NotFound("division not found");
+            if (result is null) return NotFound("division not found");
 
-            return Ok(new { division, relatedData = relatedData.Select(x => new { x.district, x.subDistricts }) });
+
+
+            return Ok(new
+            {
+                id = result.Item1.Id,
+                englishName = result.Item1.EnglishName,
+                banglaName = result.Item1.BanglaName,
+                districts = result.Item2.Select(district => new
+                {
+                    id = district.Item1.Id,
+                    englishName = district.Item1.EnglishName,
+                    banglaName = district.Item1.BanglaName,
+                    subDistricts = district.Item2.Select(subDistrict => new
+                    {
+                        id = subDistrict.Id,
+                        districtId = district.Item1.Id,
+                        englishName = subDistrict.EnglishName,
+                        banglaName = subDistrict.BanglaName
+                    })
+                })
+            });
 
 
 
