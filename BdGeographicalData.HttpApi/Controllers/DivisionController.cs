@@ -30,7 +30,11 @@ namespace BdGeographicalData.HttpApi.Controllers
 
             if (result is null) return NotFound("division not found");
 
-            return Ok(DivisionResponseDto.Response(result));
+            return Ok(new
+            {
+                division = result.Item1,
+                relatedData = result.Item2.Select(x => new { district = x.Item1, subDistricts = x.Item2 })
+            });
         }
 
         // [HttpGet("{division_name}")]
