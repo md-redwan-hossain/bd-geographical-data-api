@@ -1,3 +1,4 @@
+using BdGeographicalData.Application;
 using BdGeographicalData.Domain.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -29,30 +30,7 @@ namespace BdGeographicalData.HttpApi.Controllers
 
             if (result is null) return NotFound("division not found");
 
-
-
-            return Ok(new
-            {
-                id = result.Item1.Id,
-                englishName = result.Item1.EnglishName,
-                banglaName = result.Item1.BanglaName,
-                districts = result.Item2.Select(district => new
-                {
-                    id = district.Item1.Id,
-                    englishName = district.Item1.EnglishName,
-                    banglaName = district.Item1.BanglaName,
-                    subDistricts = district.Item2.Select(subDistrict => new
-                    {
-                        id = subDistrict.Id,
-                        districtId = district.Item1.Id,
-                        englishName = subDistrict.EnglishName,
-                        banglaName = subDistrict.BanglaName
-                    })
-                })
-            });
-
-
-
+            return Ok(DivisionResponseDto.Response(result));
         }
 
         // [HttpGet("{division_name}")]
